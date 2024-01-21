@@ -199,7 +199,8 @@ app.get('/delete', async (req, res) => {
     refresh: '2',
     url: `${siteUrl}/${boardName}`,
   };
-  if (post.ip !== req.ip && !req.isLoggedIn)
+  const originIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  if (post.ip !== originIp && !req.isLoggedIn)
     return res.render('submit', { result });
 
   await postMngr.deletePost(
@@ -315,15 +316,16 @@ app.post('/submit', async (req, res) => {
   //if (userAgent.toLowerCase().includes('curl'))
   //  return res.status(403).send('403 Forbidden');
 
+  const originIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   const formData = req.body;
   if (!formData.board) {
     res.status(302).send({ redirectTo: '/' });
     return;
   }
-  const ban = await banMngr.getBan(req.ip);
+  const ban = await banMngr.getBan(originIp);
   if (ban) {
     if (ban.expires > 0 && Date.now() > ban.expires) {
-      await banMngr.deleteBan(req.ip);
+      await banMngr.deleteBan(originIp);
     } else {
       return res.render('banned', { ban });
     }
@@ -333,7 +335,7 @@ app.post('/submit', async (req, res) => {
   const parent = parseInt(formData.parent);
   const thread = parent? await postMngr.getThread(board, parent) : null;
   const timestamp = Date.now();
-  const userTimestamps = postTimestamps[req.ip] || {};
+  const userTimestamps = postTimestamps[originIp] || {};
   const lastReplyTimestamp = userTimestamps[`${board}_reply`] || 0;
   const lastThreadTimestamp = userTimestamps[`${board}_thread`] || 0;
   let result = {
@@ -365,7 +367,7 @@ app.post('/submit', async (req, res) => {
     return res.render('submit', { result });
 
   userTimestamps[`${board}_${parent === 0 ? 'thread' : 'reply'}`] = timestamp;
-  postTimestamps[req.ip] = userTimestamps;
+  postTimestamps[originIp] = userTimestamps;
   
   let imageCount = 0;
   const content = formData.epistula
@@ -410,7 +412,7 @@ app.post('/submit', async (req, res) => {
     enableIds: formData.enableIds? true: false,
     closed: false,
     replyCount: 0,
-    ip: req.ip,
+    ip: originIp,
     parent: parent,
     title: formData.titulus ?? '',
     content: content,
