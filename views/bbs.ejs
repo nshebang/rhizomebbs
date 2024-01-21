@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/gif" href="/img/favicon.gif">
+  <title><%= board.title %>@Ichoria BBS</title>
+  <% for (const [title, style] of Object.entries(styles)) { %>
+  <link rel="<%= title === Object.keys(styles)[0] ? 'stylesheet' : 'alternate stylesheet'; %>"
+    href="/css/<%= style %>" title="<%= title %>"><% } %>
+</head>
+<body<% if (board.aa) { %> class="aa"<% } %>>
+  <header>
+    <nav>[
+      <a href="https://ichoria.xyz">ichoria</a>
+      <a href="/">portada</a>
+      <a href="/info">ayuda</a>
+      <% boards.forEach(board => { %>
+      <a href="/<%= board %>"><%= board %></a>
+    <% }); %> ]</nav>
+
+    <% if (board.banner !== "") { %>
+    <img src="/img/<%= board.banner %>">
+    <% } %>
+  </header>
+  <main>
+    <article class="box">
+      <h1><%= board.title %>@Ichoria BBS</h1>
+      <hr>
+      <%= board.info %>
+    </article>
+
+    <article class="box">
+      Estilos:
+      <select id="style-selector">
+      <% for (const [title, style] of Object.entries(styles)) { %>
+      <option value="<%= title %>"><%= title %></option>
+      <% } %>
+      </select>
+      <noscript>(requiere javascript)</noscript>
+    </article>
+
+    <article class="box">
+      <% mainThreadList.forEach((thread, i) => { %>
+      <a href="/<%= boardName %>/threads/<%= thread.timestamp %>"><b><%= i + 1%>.</b>
+      <%= thread.title %></a>&nbsp;
+      <% }); %>
+      <hr>
+      <h3 class="newthread">
+        <a href="#postform">Abrir nuevo hilo</a> |
+        <a href="/<%= boardName %>/list">Todos los hilos</a>
+      </h3>
+    </article>
+    
+    <% threads.forEach((thread, i) => { %>
+      <article class="box">
+        <a name="t<%= i + 1 %>"></a>
+        <h2>
+          <a href="/<%= boardName %>/threads/<%= thread.timestamp %>">
+            <%= thread.title %>
+          </a>
+          <span class="thread-controls">
+            <a href="#t<%= (i === 0)? 10 : i %>">▲</a>
+            <a href="#t<%= (i + 2 !== 10)? i + 2 : 1 %>">▼</a>
+          </span>
+        </h2>
+        <h4>1. 
+          <span class="name"><%= board.fakeName %></span>
+          <% if (thread.capcode) { %><span class="capcode"> ## Admin </span><% } %>
+          <span class="date"><%= new Date(thread.timestamp).toISOString(); %></span>
+          <% if (thread.enableIds) { %><span class="uid">ID:<%= thread.userId %></span><% } %>
+          <% if (isLoggedIn) { %><span class="note"><%= thread.ip.split('.').slice(0, 2).join('.') + '.*.*' %></span><% } %>
+          <span class="post-controls">
+            <a href="/delete?board=<%= boardName %>&thread=<%= thread.timestamp %>&number=1"
+              onclick="if (!confirm('¿Eliminar post no. 1 y sus respuestas?')) return false;">del</a>
+            <% if (isLoggedIn) { %>
+              <a href="#" onclick="ban('<%= thread.ip %>');">ban</a>
+              <a href="#"
+                onclick="deleteAndBan('<%= boardName %>', '<%= thread.timestamp %>', '1', '<%= thread.ip %>');">del+ban</a>
+              <a href="#" onclick="nuke('<%= thread.ip %>');">nuke</a>
+            <% } %>
+          </span>
+        </h4>
+        <blockquote class="<%= board.aa? 'aapost' : 'post' %>">
+          <%- thread.content %>
+        </blockquote>
+
+        <% if (thread.replyCount > 4) { %>
+        <blockquote class="post note"><small>
+          Solo se muestran las últimas 4 respuestas.
+          <a href="/<%= boardName %>/threads/<%= thread.timestamp %>">Ver hilo entero</a>.
+        </small></blockquote>
+        <% } %>
+
+        <% thread.replies.forEach(reply => { %>
+        <h4><%= reply.number + 1 %>. 
+          <span class="name"><%= board.fakeName %></span>
+          <% if (reply.capcode) { %><span class="capcode"> ## Admin </span><% } %>
+          <span class="date"><%= new Date(reply.timestamp).toISOString(); %></span>
+          <% if (thread.enableIds) { %><span class="uid">ID:<%= reply.userId %></span><% } %>
+          <% if (isLoggedIn) { %><span class="note"><%= reply.ip.split('.').slice(0, 2).join('.') + '.*.*' %></span><% } %>
+          <span class="post-controls">
+            <a href="/delete?board=<%= boardName %>&thread=<%= thread.timestamp %>&number=<%= reply.number + 1 %>"
+              onclick="if (!confirm('¿Eliminar post no. <%= reply.number + 1 %> ?')) return false;">del</a>
+            <% if (isLoggedIn) { %>
+            <a href="#" onclick="ban('<%= reply.ip %>');">ban</a>
+            <a href="#"
+              onclick="deleteAndBan('<%= boardName %>', '<%= thread.timestamp %>', '<%= reply.number + 1 %>', '<%= reply.ip %>');">del+ban</a>
+            <a href="#" onclick="nuke('<%= reply.ip %>');">nuke</a>
+            <% } %>
+          </span>
+        </h4>
+        <blockquote class="<%= board.aa? 'aapost' : 'post' %>">
+          <%- reply.content %>
+        </blockquote>
+        <% }); %>
+      
+        <% if (!thread.closed) { %><hr>
+        <form action="/submit" method="post">
+          <input type="hidden" name="parent" value="<%= thread.timestamp %>">
+          <input type="hidden" name="board" value="<%= boardName %>">
+
+          <textarea name="epistula" cols="50" rows="7"
+            placeholder="Cuéntanos tu respuesta..."></textarea>
+          <br>
+          <input type="submit" value="Responder">
+          <label for="sageru<%= thread.timestamp %>">
+            <input name="sage"
+              id="sageru<%= thread.timestamp %>"
+              type="checkbox">sage
+          </label>
+          <% if (isLoggedIn) { %><label for="cap<%= thread.timestamp %>">
+            <input name="capcode"
+              id="cap<%= thread.timestamp %>"
+              type="checkbox">capcode
+          </label><% } %>
+          <div style="display: none;">
+           <input type="text" name="name">
+            <input type="text" name="email">
+          </div>
+        </form><% } else { %><hr><p><b>Hilo cerrado. Ya no es posible responder.</b></p><% } %>
+      </article>
+    <% }); %>
+
+    <article class="box">
+      <a name="postform"></a>
+      <h3>Abrir nuevo hilo</h3>
+      <form action="/submit" method="post">
+        <input type="hidden" name="parent" value="0">
+        <input type="hidden" name="board" value="<%= boardName %>">
+        
+        <input type="text" name="titulus" placeholder="Título" size="30">
+        <input type="submit" value="Abrir nuevo hilo"><br>
+        <textarea name="epistula" cols="50" rows="7"
+          placeholder="Cuéntanos tus ideas y pensamientos..."></textarea><br>
+        <label for="ids">
+          <input name="enableIds"
+            id="ids"
+            type="checkbox">usar IDs
+        </label>
+        <% if (isLoggedIn) { %><label for="cap">
+          <input name="capcode"
+            id="cap"
+            type="checkbox">capcode
+        </label><% } %>
+        <div style="display: none;">
+          <input type="text" name="name">
+          <input type="text" name="email">
+        </div>
+        <ul class="posting-tips">
+          <li>Sigue las <a href="/info#netiqueta">reglas y la netiqueta</a>.</li>
+          <li>Es posible usar markup para formatear tu post. <a href="/info#marcado">Ver guía</a>.</li>
+        </ul>
+      </form>
+    </article>
+  </main>
+  <footer>
+    <hr><% if (isLoggedIn) { %><a href="/admin/logout"><b>logout</b></a><br><% } %>
+    - rhizomebbs <%= VERSION %> -
+  </footer>
+  <% if (isLoggedIn) { %><script type="text/javascript" src="/js/hammer.js" defer></script><% } %>
+  <script type="text/javascript" src="/js/styles.js"></script>
+  <script type="text/javascript" src="/js/quoting.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/gif" href="/img/favicon.gif">
+  <title>Ichoria BBS</title>
+  <link rel="stylesheet" href="/css/frontpage.css">
+</head>
+<body>
+  <header>
+    <img src="/img/logo.png" alt="Ichoria BBS">
+    <hr>
+  </header>
+  <main>
+    <p>
+      Ichoria BBS es un enfoque simplista de tablón de discusión anónimo
+      estilo nipón en español, similar a Heyuri o Futaba. El servicio
+      es parte del proyecto <a href="https://ichoria.xyz">Ichoria★xyz</a>.
+      Si necesitas ayuda para usar el sitio, lee la
+      <a href="/info">página de ayuda</a>.
+    </p>
+    <table class="boardlist">
+      <tr>
+        <th colspan="2">Tablones</th>
+      </tr>
+      <tr>
+        <td>
+          <% for(let i = 0; i < Math.floor(boardCount / 2); i++) { %>
+          <a href="/<%= boardNames[i] %>">
+            <img src="/img/<%= boards[boardNames[i]].banner %>">
+            <h3><%= boards[boardNames[i]].title %></h3>
+          </a>
+          <% } %>
+        </td>
+        <td>
+          <% for(let i = Math.floor(boardCount / 2); i < boardCount; i++) { %>
+          <a href="/<%= boardNames[i] %>">
+            <img src="/img/<%= boards[boardNames[i]].banner %>">
+            <h3><%= boards[boardNames[i]].title %></h3>
+          </a>
+          <% } %>
+        </td>
+      </tr>
+    </table>
+  </main>
+  <footer>
+    <hr>
+    - rhizomebbs <%= VERSION %> -
+  </footer>
+</body>
+</html>

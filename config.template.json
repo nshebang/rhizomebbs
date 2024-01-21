@@ -1,0 +1,27 @@
+{
+  "port": 3000,
+  "siteUrl": "http://localhost:3000",
+  "threadCooldown": 1800000,
+  "replyCooldown": 5000,
+  "styles": {
+    "Ichoria": "ichoria.css",
+    "pseud0ch": "pseud0ch.css",
+    "Cyberia": "cyberia.css",
+    "20XX": "20xx.css",
+    "Futaba": "futaba.css",
+    "Tanasinn": "tanasinn.css"
+  },
+  "staff": {
+    "admin": "password"
+  },
+  "secretKey": "985b734cba9d0b8e1691e5fdc4f4b35a243e0fd98b6dad598cb2b00701e7897e516be8ccc1b4a8825b485d011683ffdcfd8beefd44d7a259cb4cae301f9f960d",
+  "boards": {
+    "test": {
+      "title": "Test board",
+      "info": "Test info",
+      "banner": "logo.png",
+      "fakeName": "Anon",
+      "aa": false
+    }
+  }
+}

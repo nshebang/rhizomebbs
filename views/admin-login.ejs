@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/gif" href="/img/favicon.gif">
+  <title>Ichoria BBS</title>
+  <style>
+    html {
+      color-scheme: dark light;
+    }
+    body {
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <form action="/admin/login" method="post">
+    <input type="text" name="name" length="30" placeholder="Username"><br>
+    <input type="password" name="signum" length="30"><br>
+    <input type="submit" value="Submit">
+    <div style="display: none;">
+      <input type="password" name="password">
+    </div>
+  </form>
+</body>
+</html>

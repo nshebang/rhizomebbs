@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="<%= result.refresh %>; url=<%= result.url %>">
+  <link rel="icon" type="image/gif" href="/img/favicon.gif">
+  <title>Ichoria BBS</title>
+  <style>
+    html {
+      color-scheme: dark light;
+    }
+    body {
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <h2><%= result.msg %></h2>
+  <noscript>
+    <a href="<%= result.url %>">Volver (no javascript)</a>
+  </noscript>
+  <a href="javascript:;" onclick="history.go(-1);">Volver</a>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/gif" href="/img/favicon.gif">
+  <title>Información de baneo - Ichoria BBS</title>
+  <style>
+    html {
+      color-scheme: dark light;
+    }
+    body {
+      margin: auto;
+      max-width: 720px;
+      font-family: Arial, Helvetica, sans-serif;
+      background-image: url('/img/static.gif');
+    }
+  </style>
+</head>
+<body>
+  <h2>Tu dirección IP fue baneada.</h2>
+  <main>
+    <p>
+      Se restringió el acceso al BBS a tu dirección IP <b><%= ban.ip %></b>.
+    </p>
+    <ul>
+      <li>El motivo fue <b><%= ban.reason %></b></li>
+      <li>Esta sanción fue aplicada el día <%= new Date(ban.timestamp).toISOString(); %></li>
+      <li><%= ban.expires? `Expirará el día ${new Date(ban.expires).toISOString()}` : 'Este baneo es permanente y no expirará.' %></li>
+    </ul>
+    <img src="/img/bonk.gif">
+    <p>
+      Para participar en el BBS debes seguir la netiqueta. Si esta IP
+      sancionada te fue asignada erróneamente por tu proveedor de internet,
+      envía un correo a <a href="mailto:admin@ichoria.xyz">admin@ichoria.xyz</a>
+      y se revisará tu caso.
+    </p>
+  <hr>
+  <a href="/">Volver</a>
+  </main>
+</body>
+</html>

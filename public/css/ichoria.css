@@ -1,0 +1,235 @@
+html {
+  color-scheme: dark;
+  text-rendering: optimizeSpeed;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  background-color: #35303b;
+  background-image: radial-gradient(circle, #f9f0c220 1px, transparent 1px);
+  background-size: 20px 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*
+  this should be included on all stylesheets for
+  aa boards to be properly displayed!
+*/
+.aa, .aa textarea, .aa input[type="text"] {
+  font-family: Noto Sans Mono CJK JP, MS PGothic, Mona, monospace !important;
+}
+
+h1, h2, h3, h4 {
+  margin: 0 0px 10px;
+}
+
+h2, h3 {
+  padding-left: 20px; 
+  background: url(/img/rose.png) no-repeat scroll;
+}
+
+.newthread {
+  padding-left: 0;
+  background: none;
+  text-align: center;
+}
+
+h2 a:link, h2 a:visited {
+  color: black;
+  text-decoration: none;
+}
+
+h2 a:hover {
+  text-decoration: underline;
+}
+
+.thread-controls {
+  font-weight: normal;
+  font-size: 14pt;
+  float: right;
+}
+
+nav {
+  text-align: left;
+}
+
+header {
+  text-align: center;
+}
+
+nav a:link, nav a:visited {
+  color: #08b5ff;
+}
+
+a:link, a:visited {
+  color: #06c;
+}
+
+nav a:hover, a:hover {
+  color: #c00;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.box img {
+  max-width: 150px;
+  height: auto;
+}
+
+.box {
+  margin-top: 10px;
+  background-color: #aab;
+  color: black;
+  padding: 10px;
+  border-bottom: 2px solid #555;
+}
+
+.post {
+  margin: 0 10px 10px;
+  overflow: auto;
+  text-overflow: ellipsis;
+  white-space: normal;
+  max-height: 400px;
+}
+
+.aapost {
+  margin: 0 10px 10px;
+  overflow: auto;
+  word-break: keep-all;
+  white-space: nowrap;
+}
+
+.quote {
+  border-left: 2px solid #444;
+  padding-left: 10px;
+  color: #444;
+}
+
+.name {
+  color: #226643;
+  font-weight: bold;
+}
+
+.capcode {
+  font-weight: normal;
+  color: #c00;
+}
+
+.uid {
+  font-weight: normal;
+}
+
+.date, .note {
+  font-weight: normal;
+  color: #444;
+}
+
+h4 .post-controls {
+  display: none;
+}
+
+h4:hover .post-controls {
+  display: inline-block;
+}
+
+.post-controls {
+  font-weight: normal;
+  color: black;
+}
+
+.spoiler {
+  background-color: black;
+  color: black;
+}
+
+.spoiler:hover {
+  color: white;
+}
+
+.threadlist {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.threadlist tr:hover {
+  background: #9b9bbf;
+}
+
+.threadlist th, .threadlist td {
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.threadlist th:nth-child(2), .threadlist td:nth-child(2) {
+  min-width: 50%;
+}
+
+.posting-tips {
+  font-size: 9pt;
+  margin: 0px 10px 0px;
+  padding: 10px 10px 0px;
+}
+
+.code-pre {
+  line-height: .5;
+}
+
+code {
+  padding: 5px;
+  display: block;
+  background-color: #35303b;
+  background-image: url('/img/lain-block.gif');
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  color: white;
+  white-space: nowrap;
+}
+
+footer {
+  text-align: center;
+  font-size: 9pt;
+  margin-bottom: 8px;
+}
+
+input[type="text"], textarea {
+  max-width: 100%;
+  background-color: #1a1921;
+  color: #eee;
+  font-size: 12pt;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+input[type="submit"] {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11pt;
+}
+
+#floatingReply {
+  display: none;
+  position: absolute;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  color: black;
+  background-color: #aab;
+  max-width: 300px;
+}
+
+@media (max-width: 767px) {
+  textarea {
+    width: 100%;
+    height: auto;
+    resize: both;
+  } 
+
+  .post {
+    margin: 0 10px 10px;
+    overflow: hidden;
+    white-space: normal;
+    max-height: 100%;
+  }
+}
