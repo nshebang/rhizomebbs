@@ -38,6 +38,8 @@
             <a href="#"
               onclick="deleteAndBan('<%= boardName %>', '<%= thread.timestamp %>', '1', '<%= thread.ip %>');">del+ban</a>
             <a href="#" onclick="nuke('<%= thread.ip %>');">nuke</a>
+            <a href="/admin/close?board=<%= boardName %>&thread=<%= thread.timestamp %>"
+              onclick="if (!confirm('¿Cerrar este hilo?')) return false;">close</a>
           <% } %>
         </span>
       </h4>

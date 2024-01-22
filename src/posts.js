@@ -103,6 +103,15 @@ class PostManager {
     return posts.length > 0? (matchingPosts.length > 0? matchingPosts[0] : null) : null;
   }
 
+  async closeThread(board, threadId) {
+    let posts = await this.db.get(board) ?? [];
+    posts.forEach(p => {
+      if (p.timestamp === parseInt(threadId) && !p.parent)
+        p.closed = true;
+    });
+    await this.db.set(board, posts);
+  }
+
   async getPostByIds(board, parent, number) {
     const posts = number === 1?
       [await this.getThread(board, parent)] :

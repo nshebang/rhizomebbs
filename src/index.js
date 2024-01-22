@@ -181,6 +181,26 @@ app.get('/admin/nuke', async (req, res) => {
   res.render('submit', { result });
 });
 
+app.get('/admin/close', async (req, res) => {
+  if (!req.isLoggedIn)
+    return res.status(404).render('not-found');
+  const boardName = req.query.board ?? '';
+  const threadId = req.query.thread ?? '';
+
+  let result = {
+    msg: 'El post indicado no es un hilo o no existe.',
+    refresh: '2',
+    url: `${siteUrl}/${boardName}`,
+  };
+  const thread = await postMngr.getThread(boardName, parseInt(threadId));
+  if (!thread)
+    return res.render('submit', { result });
+  
+  await postMngr.closeThread(boardName, parseInt(threadId));
+  result.msg = 'Hilo cerrado exitosamente.';
+  res.render('submit', { result });
+});
+
 app.get('/delete', async (req, res) => {
   const boardName = req.query.board ?? '';
   const threadId = req.query.thread ?? '';
