@@ -3,7 +3,14 @@ async function whoAmIQuoting(quoteEl) {
   if (!target.board || !target.threadId || !target.postId)
     return;
 
-  const data = await fetchPost(target.board, target.threadId, target.postId);
+  let data;
+  let attempts = 0;
+
+  while(!data && attempts < 4) {
+    data = await fetchPost(target.board, target.threadId, target.postId);
+    attempts++;
+  }
+
   if (!data)
     return;
   const post = data.post;
@@ -57,7 +64,7 @@ function createFloatingReply(post, quoteEl) {
     floatingReply.style.top = (e.clientY + window.scrollY + 5) + 'px';
   });
 
-  quoteEl.addEventListener('mouseout', () => {
+  quoteEl.addEventListener('mouseleave', () => {
     floatingReply.remove();
   });
 
