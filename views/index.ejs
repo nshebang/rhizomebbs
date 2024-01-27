@@ -53,7 +53,7 @@
       <tr class="post-row">
         <td>[<%= new Date(p.timestamp).toISOString(); %>]</td>
         <td>
-          <a href="/<%= p.board %>/threads/<%= !p.parent? p.timestamp : p.parent; %>#<%= p.number + 1 %>">
+          <a href="/<%= p.board %>/threads/<%= !p.parent? p.timestamp : p.parent; %>#p<%= p.number + 1 %>">
             <%= p.board %>/<%= !p.parent? p.timestamp : p.parent; %>#<%= p.number + 1 %></a>:
         </td>
         <td><%- p.content.replace(/<[^>]*>/g, '').substring(0, 100) + (p.content.length > 100 ? '...' : '') %></td>
