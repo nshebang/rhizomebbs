@@ -58,12 +58,14 @@ app.use((req, res, next) => {
   });
 });
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+  const latestPosts = await postMngr.getLastGlobalPosts(Object.keys(boards));
   res.render('index', {
     VERSION,
     boards,
     boardNames: Object.keys(boards),
-    boardCount: Object.keys(boards).length, 
+    boardCount: Object.keys(boards).length,
+    latestPosts 
   });
 });
 

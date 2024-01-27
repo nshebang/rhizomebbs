@@ -10,9 +10,9 @@
 <body>
   <header>
     <img src="/img/logo.png" alt="Ichoria BBS">
-    <hr>
+    <div class="sep1"></div>
   </header>
-  <main>
+  <main class="box">
     <p>
       Ichoria BBS es un enfoque simplista de tablón de discusión anónimo
       estilo nipón en español, similar a Heyuri o Futaba. El servicio
@@ -22,7 +22,7 @@
     </p>
     <table class="boardlist">
       <tr>
-        <th colspan="2">Tablones</th>
+        <th colspan="2" class="boardsth">Tablones</th>
       </tr>
       <tr>
         <td>
@@ -43,9 +43,41 @@
         </td>
       </tr>
     </table>
+
+    <div class="postlist-container">
+    <table class="postlist">
+      <tr>
+        <th colspan="3" class="poststh">Posts recientes</th>
+      </tr>
+      <% latestPosts.forEach(p => { %>
+      <tr class="post-row">
+        <td>[<%= new Date(p.timestamp).toISOString(); %>]</td>
+        <td>
+          <a href="/<%= p.board %>/threads/<%= !p.parent? p.timestamp : p.parent; %>#<%= p.number + 1 %>">
+            <%= p.board %>/<%= !p.parent? p.timestamp : p.parent; %>#<%= p.number + 1 %></a>:
+        </td>
+        <td><%- p.content.replace(/<[^>]*>/g, '').substring(0, 100) + (p.content.length > 100 ? '...' : '') %></td>
+      </tr>
+      <% }); %>
+    </table>
+    </div>
+
+    <table class="afflist">
+      <tr>
+        <th class="affth">Afiliados</th>
+      </tr>
+      <tr>
+        <td class="aff">
+          El proyecto Ichoria busca afiliados. Si quieres promover un
+          proyecto tuyo acá, por favor contáctanos a la dirección
+          <a href="mailto:admin@ichoria.xyz">admin@ichoria.xyz</a>.
+          No olvides adjuntar el sitio web de tu proyecto y el banner
+          que deseas que aparezca aquí.
+        </td>
+      </tr>
+    </table>
   </main>
   <footer>
-    <hr>
     - rhizomebbs <%= VERSION %> -
   </footer>
 </body>

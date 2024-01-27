@@ -11,6 +11,13 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.box {
+  background-color: #aab;
+  color: black;
+  padding: 10px;
+  border: 2px outset #666;
+}
+
 footer {
   text-align: center;
   font-size: 9pt;
@@ -37,9 +44,9 @@ code {
 }
 
 .quote {
-  border-left: 2px solid lightgray;
+  border-left: 2px solid #666;
   padding-left: 10px;
-  color: lightgray;
+  color: #666;
 }
 
 img {
@@ -47,15 +54,16 @@ img {
   height: auto;
 }
 
+.sep1 {
+  background-image: url('/img/star-line.gif');
+  background-repeat: repeat-x;
+  height: 25px;
+}
+
 .boardlist {
   width: 100%;
   border-collapse: collapse;
-}
-
-.boardlist th {
-  background-color: #aab;
-  color: black;
-  border-bottom: 2px solid #555;
+  margin-bottom: 10px;
 }
 
 .boardlist td {
@@ -65,10 +73,63 @@ img {
   width: 50%;
 }
 
+.boardlist .boardsth {
+  background-color: #324742;
+  color: white;
+  border-bottom: 2px solid #222;
+}
+
+.postlist-container {
+  overflow-x: auto;
+}
+
+.postlist {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.postlist .poststh {
+  background-color: #261b22;
+  color: white;
+  border-bottom: 2px solid #222;
+}
+
+.post-row {
+  font-size: 10pt;
+}
+
+.post-row td:nth-child(3) {
+  min-width: 52%;
+}
+
+.afflist {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.afflist .affth {
+  background-color: #2a3945;
+  color: white;
+  border-bottom: 2px solid #222;
+}
+
+.aff {
+  text-align: justify;
+  font-size: 11pt;
+}
+
 a:link, a:visited {
-  color: #08b5ff;
+  color: #06c;
 }
 
 a:hover {
   color: #c00;
+}
+
+footer {
+  margin: 10px;
 }

@@ -60,6 +60,21 @@ class PostManager {
     await this.db.set(board, posts);
   }
 
+  async getLastGlobalPosts(boards) {
+    let posts = [];
+    for(let i = 0; i < boards.length; i++) {
+      const boardPosts = await this.db.get(boards[i]) ?? [];
+      const postsWithBoard = boardPosts
+        .sort((a, b) => b.timestamp - a.timestamp)
+        .slice(0, 10)
+        .map(post => ({ ...post, board: boards[i] }));
+      posts = [...posts, ...postsWithBoard];
+    }
+    return [...posts]
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .slice(0, 10);
+  }
+
   async getPosts(board, parent = 0) {
     const posts = await this.db.get(board) ?? [];
     return posts.filter(p => p.parent === parent);
