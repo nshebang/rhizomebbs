@@ -122,6 +122,14 @@ img {
   font-size: 11pt;
 }
 
+h2 .permalink, h4 .permalink {
+  display: none;
+}
+
+h2:hover .permalink, h4:hover .permalink {
+  display: inline;
+}
+
 a:link, a:visited {
   color: #06c;
 }
@@ -131,5 +139,6 @@ a:hover {
 }
 
 footer {
-  margin: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
