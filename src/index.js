@@ -11,7 +11,7 @@ const PostManager = require('./posts');
 const BanManager = require('./bans');
 const Utils = require('./utils');
 
-const VERSION = '1.0.3';
+const VERSION = '1.0.4';
 const app = express();
 const db = new QuickDB();
 const postMngr = new PostManager(db);
