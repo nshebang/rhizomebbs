@@ -79,3 +79,5 @@ server {
 ![](/public/img/gnu.png)
 
 This is copyleft software under the terms of the GNU AGPL v3.
+The images in /public/img/ belong to their respective authors and
+are not covered by the AGPL license.

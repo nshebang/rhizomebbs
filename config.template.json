@@ -9,7 +9,9 @@
     "Cyberia": "cyberia.css",
     "20XX": "20xx.css",
     "Futaba": "futaba.css",
-    "Tanasinn": "tanasinn.css"
+    "Tanasinn": "tanasinn.css",
+    "Kute": "kute.css",
+    "Bird": "bird.css"
   },
   "staff": {
     "admin": "password"
