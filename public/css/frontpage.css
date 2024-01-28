@@ -131,6 +131,10 @@ h2:hover .permalink, h4:hover .permalink {
 }
 
 a:link, a:visited {
+  color: rgb(164, 84, 255);
+}
+
+.box a:link, .box a:visited {
   color: #32a;
 }
 
