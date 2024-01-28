@@ -206,6 +206,8 @@ input[type="text"], textarea {
 input[type="submit"] {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 11pt;
+  color: #eee;
+  background-color: #1a1921;
 }
 
 #floatingReply {
