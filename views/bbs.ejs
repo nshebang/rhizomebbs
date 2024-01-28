@@ -7,7 +7,7 @@
   <title><%= board.title %>@Ichoria BBS</title>
   <% for (const [title, style] of Object.entries(styles)) { %>
   <link rel="<%= title === Object.keys(styles)[0] ? 'stylesheet' : 'alternate stylesheet'; %>"
-    href="/css/<%= style %>" title="<%= title %>"><% } %>
+    href="/css/<%= style %>" title="<%= title %>" media="screen"><% } %>
 </head>
 <body<% if (board.aa) { %> class="aa"<% } %>>
   <header>

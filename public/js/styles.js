@@ -2,7 +2,7 @@ const styleSelector = document.getElementById('style-selector');
 
 function setStyle() {
   const selectedStyle = localStorage.getItem('selectedStyle') || '';
-  if (!selectedStyle.length)
+  if (!selectedStyle)
     return;
 
   for (let i = 0; i < document.styleSheets.length; i++) {
