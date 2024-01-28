@@ -12,7 +12,7 @@ body {
 }
 
 .box {
-  background-color: #9b9bbd;
+  background-color: #a4a4c8;
   color: black;
   padding: 10px;
   border: 2px outset #666;
@@ -98,7 +98,7 @@ img {
 
 .post-row {
   font-size: 10pt;
-  background-color: #9b9bbf;
+  background-color: #8a8ab0;
 }
 
 .post-row td:nth-child(3) {
@@ -128,7 +128,7 @@ img {
 .blotterpost {
   font-size: 10pt;
   vertical-align: top;
-  background-color: #9b9bbf;
+  background-color: #8a8ab0;
 }
 
 .blotterpost td {

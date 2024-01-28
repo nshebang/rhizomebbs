@@ -92,7 +92,7 @@ img {
 
 .box {
   margin-top: 10px;
-  background-color: #9b9bbd;
+  background-color: #a4a4c8;
   color: black;
   padding: 10px;
   border-bottom: 2px solid #555;
@@ -166,7 +166,7 @@ h4:hover .post-controls {
 }
 
 .threadlist tr:hover {
-  background: #9b9bbf;
+  background: #8a8ab0;
 }
 
 .threadlist th, .threadlist td {
