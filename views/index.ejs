@@ -45,7 +45,7 @@
       </tr>
     </table>
 
-    <div class="postlist-container">
+    <div class="container">
     <table class="postlist">
       <tr>
         <th colspan="3" class="poststh">Posts recientes</th>
@@ -63,6 +63,41 @@
     </table>
     </div>
 
+    <div class="container">
+    <table class="blotter">
+      <thead>
+        <tr>
+          <th colspan="2" class="blotterth">Noticias</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% blotterPosts.forEach(post => { %>
+        <tr class="blotterpost">
+          <td>
+            [<%= new Date(post.timestamp).toISOString(); %>]
+          </td>
+          <td>
+            <%- post.content %>
+            <% if (isLoggedIn) { %>[<a href="/admin/blotter/delete?id=<%= post.timestamp %>">del</a>]<% } %>
+          </td>
+        </tr>
+      <% }); %>
+      </tbody>
+    </table>
+  </div>
+
+    <% if (isLoggedIn) { %>
+    <form method="post" action="/admin/blotter/new">
+      <small>Posteando como <b style="color: #c00;"><%= username %></b></small><br>
+      <input type="hidden" name="username" value="<%= username %>">
+      <textarea name="content"
+        placeholder="Añadir noticia al blotter (HTML)..."
+        cols="40" rows="4"></textarea>
+      <br>
+      <input type="submit" value="Postear noticia">
+    </form>
+    <% } %>
+
     <table class="afflist">
       <tr>
         <th class="affth">Afiliados</th>
@@ -78,7 +113,7 @@
       </tr>
     </table>
   </main>
-  <footer>
+  <footer><% if (isLoggedIn) { %><a href="/admin/logout"><b>logout</b></a><br><% } %>
     - rhizomebbs <%= VERSION %> -
   </footer>
 </body>

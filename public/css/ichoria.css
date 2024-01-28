@@ -67,7 +67,7 @@ a:link, a:visited {
   color: #32a;
 }
 
-nav a:hover, a:hover {
+nav a:hover, a:hover, .box a:hover {
   color: #c00;
 }
 

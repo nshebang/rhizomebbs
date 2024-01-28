@@ -9,6 +9,7 @@ const { QuickDB } = require('quick.db');
 
 const PostManager = require('./posts');
 const BanManager = require('./bans');
+const Blotter = require('./blotter');
 const Utils = require('./utils');
 
 const VERSION = '1.0.4';
@@ -16,6 +17,7 @@ const app = express();
 const db = new QuickDB();
 const postMngr = new PostManager(db);
 const banMngr = new BanManager(db);
+const blotter = new Blotter(db);
 const utils = new Utils();
 
 console.log('Loading configuration');
@@ -60,12 +62,17 @@ app.use((req, res, next) => {
 
 app.get('/', async (req, res) => {
   const latestPosts = await postMngr.getLastGlobalPosts(Object.keys(boards));
+  const blotterPosts = await blotter.getAllBlotterPosts();
+  const username = req.user? (req.user.name ?? '') : '';
   res.render('index', {
     VERSION,
     boards,
     boardNames: Object.keys(boards),
     boardCount: Object.keys(boards).length,
-    latestPosts 
+    latestPosts,
+    blotterPosts,
+    isLoggedIn: req.isLoggedIn,
+    username,
   });
 });
 
@@ -101,6 +108,44 @@ app.get('/admin/logout', (req, res) => {
   req.isLoggedIn = false;
   req.user = null;
   res.redirect('/');
+});
+
+app.post('/admin/blotter/new', async (req, res) => {
+  if (!req.isLoggedIn)
+    return res.status(404).render('not-found');
+  
+  const formData = req.body;
+  let result = {
+    msg: 'Error: No se introdujo ninguna noticia.',
+    refresh: '3',
+    url: `${siteUrl}`
+  }; 
+
+  if (!formData.content || !formData.content.trim().length)
+    return res.render('submit', { result });
+
+  const post = {
+    timestamp: Date.now(),
+    username: formData.username,
+    content: formData.content.replace(/\n/g, '<br>')
+  };
+  await blotter.addBlotterPost(post);
+  result.msg = 'Post añadido al blotter.';
+  res.render('submit', { result });
+});
+
+app.get('/admin/blotter/delete', async (req, res) => {
+  if (!req.isLoggedIn)
+    return res.status(404).render('not-found');
+
+  const timestamp = parseInt(req.query.id ?? 0);
+  await blotter.deleteBlotterPost(timestamp);
+  const result = {
+    msg: 'Post removido del blotter.',
+    refresh: '2',
+    url: `${siteUrl}`,
+  };
+  res.render('submit', { result });
 });
 
 app.get('/admin/ban', async (req, res) => {
@@ -340,10 +385,9 @@ app.post('/submit', async (req, res) => {
 
   const originIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   const formData = req.body;
-  if (!formData.board) {
-    res.status(302).send({ redirectTo: '/' });
-    return;
-  }
+  if (!formData.board)
+    return res.status(302).send({ redirectTo: '/' });
+
   const ban = await banMngr.getBan(originIp);
   if (ban) {
     if (ban.expires > 0 && Date.now() > ban.expires) {
@@ -419,8 +463,7 @@ app.post('/submit', async (req, res) => {
 
   if (imageCount > 3) {
     result.msg = 'Solo se permite un máximo de 3 imágenes por post.';
-    res.render('submit', { result });
-    return;
+    return res.render('submit', { result });
   }
 
   const post = {

@@ -79,7 +79,7 @@ img {
   border-bottom: 2px solid #222;
 }
 
-.postlist-container {
+.container {
   overflow-x: auto;
 }
 
@@ -98,16 +98,51 @@ img {
 
 .post-row {
   font-size: 10pt;
+  background-color: #9b9bbf;
 }
 
 .post-row td:nth-child(3) {
   min-width: 52%;
 }
 
+.blotter {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 3px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.blotter .blotterth {
+  background-color: #443427;
+  color: white;
+  border-bottom: 2px solid #222;
+}
+
+.blotter tbody {
+  display: block;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.blotterpost {
+  font-size: 10pt;
+  vertical-align: top;
+  background-color: #9b9bbf;
+}
+
+.blotterpost td {
+  padding: 5px;
+}
+
+.blotterpost td:nth-child(2) {
+  width: 80%;
+}
+
 .afflist {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 
@@ -138,7 +173,7 @@ a:link, a:visited {
   color: #32a;
 }
 
-a:hover {
+.box a:hover, a:hover {
   color: #c00;
 }
 
