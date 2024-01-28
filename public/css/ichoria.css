@@ -58,12 +58,18 @@ header {
   text-align: center;
 }
 
+nav {
+  background-color: #cce;
+  color: #222;
+  padding: 2px;
+}
+
 nav a:link, nav a:visited {
-  color: #08b5ff;
+  color: #32a;
 }
 
 a:link, a:visited {
-  color: #06c;
+  color: #32a;
 }
 
 nav a:hover, a:hover {
