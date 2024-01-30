@@ -160,6 +160,10 @@ img {
   font-size: 11pt;
 }
 
+.afflinks {
+  text-align: center;
+}
+
 h2 .permalink, h4 .permalink {
   display: none;
 }
