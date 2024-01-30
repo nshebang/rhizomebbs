@@ -17,7 +17,7 @@ body {
   aa boards to be properly displayed!
 */
 .aa, .aa textarea, .aa input[type="text"] {
-  font-family: Noto Sans Mono CJK JP, MS PGothic, Mona, monospace !important;
+  font-family: MS PGothic, Mona, Noto Sans Mono CJK JP, monospace !important;
 }
 
 h1, h2, h3, h4 {
@@ -107,7 +107,7 @@ img {
   margin: 0 10px 10px;
   overflow: auto;
   word-break: keep-all;
-  white-space: nowrap;
+  white-space: pre;
 }
 
 hr {

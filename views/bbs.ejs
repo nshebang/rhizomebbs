@@ -85,8 +85,7 @@
             <% } %>
           </span>
         </h4>
-        <blockquote class="<%= board.aa? 'aapost' : 'post' %>">
-          <%- thread.content %>
+        <blockquote class="<%= board.aa? 'aapost' : 'post' %>"><%- thread.content %>
         </blockquote>
 
         <% if (thread.replyCount > 4) { %>
@@ -114,8 +113,7 @@
             <% } %>
           </span>
         </h4>
-        <blockquote class="<%= board.aa? 'aapost' : 'post' %>">
-          <%- reply.content %>
+        <blockquote class="<%= board.aa? 'aapost' : 'post' %>"><%- reply.content %>
         </blockquote>
         <% }); %>
       

@@ -45,8 +45,7 @@
           <% } %>
         </span>
       </h4>
-      <blockquote class="<%= board.aa? 'aapost' : 'post' %>">
-        <%- thread.content %>
+      <blockquote class="<%= board.aa? 'aapost' : 'post' %>"><%- thread.content %>
       </blockquote>
 
       <% thread.replies.forEach(reply => { %>
@@ -68,8 +67,7 @@
           <% } %>
         </span>
       </h4>
-      <blockquote class="<%= board.aa? 'aapost' : 'post' %>">
-        <%- reply.content %>
+      <blockquote class="<%= board.aa? 'aapost' : 'post' %>"><%- reply.content %>
       </blockquote>
       <% }); %>
       
