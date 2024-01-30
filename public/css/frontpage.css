@@ -103,6 +103,9 @@ img {
 
 .post-row td:nth-child(3) {
   min-width: 52%;
+  max-width: 400px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .blotter {
