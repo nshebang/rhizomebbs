@@ -459,7 +459,8 @@ app.post('/submit', async (req, res) => {
     .replace(/__(.*?)__/g, '<em>$1</em>')
     .replace(/~~(.*?)~~/g, '<span class="spoiler">$1</span>')
     .replace(/```([\s\S]*?)```/g, '<code><pre class="code-pre">$1</pre></code>')
-    .replace(/\n/g, !boards[board].aa? '<br>' : '\n');
+    .replace(/\n/g, !boards[board].aa? '<br>' : '\n')
+    .replace(/ /g, !boards[board].aa? ' ' : '　');
 
   if (imageCount > 3) {
     result.msg = 'Solo se permite un máximo de 3 imágenes por post.';
