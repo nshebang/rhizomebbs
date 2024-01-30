@@ -161,7 +161,15 @@ img {
 }
 
 .afflinks {
+  background-color: #8a8ab0;
   text-align: center;
+}
+
+.affdesc {
+  background-color: #8a8ab0;
+  min-width: 80%;
+  text-align: justify;
+  font-size: 10pt;
 }
 
 h2 .permalink, h4 .permalink {
