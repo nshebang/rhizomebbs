@@ -118,9 +118,11 @@ hr {
 
 .aapost {
   margin: 0 10px 10px;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   word-break: keep-all;
-  white-space: pre;
+  white-space: pre-wrap;
+  max-height: 2000px;
 }
 
 .quote {
