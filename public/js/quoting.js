@@ -1,3 +1,12 @@
+let mouseX = 0, mouseY = 0;
+
+function trackMouse(e) {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+}
+
+document.addEventListener('mousemove', trackMouse);
+
 async function whoAmIQuoting(quoteEl) {
   const target = getPostIds(quoteEl.href);
   if (!target.board || !target.threadId || !target.postId)
@@ -58,8 +67,8 @@ function createFloatingReply(post, quoteEl) {
   ${postType === 'post' ? `<blockquote class="post">` : '<blockquote class="aapost">'}
     ${post.content}
   </blockquote>`;
-  floatingReply.style.left = (e.clientX + 5) + 'px';
-  floatingReply.style.top = (e.clientY + window.scrollY + 5) + 'px';
+  floatingReply.style.left = (mouseX + 5) + 'px';
+  floatingReply.style.top = (mouseY + window.scrollY + 5) + 'px';
 
   document.addEventListener('mousemove', e => {
     floatingReply.style.left = (e.clientX + 5) + 'px';
