@@ -68,6 +68,7 @@ function createFloatingReply(post, quoteEl) {
   const floatingReply = document.createElement('div');
   floatingReply.id = 'floatingReply';
   floatingReply.style.display = 'none';
+  floatingReply.style.maxWidth = '400px';
 
   floatingReply.innerHTML = `
   <h4>${post.number + 1}. 
