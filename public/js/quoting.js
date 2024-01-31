@@ -46,6 +46,18 @@ async function fetchPost(board, threadId, postId) {
   return await response.json();
 }
 
+function calculateDistance(x1, y1, x2, y2) {
+  return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+}
+
+function isMouseTooFar(quoteEl, mx, my, threshold) {
+  const rect = quoteEl.getBoundingClientRect();
+  const linkX = rect.left + rect.width / 2;
+  const linkY = rect.top + rect.height / 2;
+  const distance = calculateDistance(mx, my, linkX, linkY);
+  return distance > threshold;
+}
+
 function createFloatingReply(post, quoteEl) {
   const nameEls = document.querySelector(`span[class="name"]`);
   const fakeName = nameEls.innerHTML;
@@ -73,10 +85,15 @@ function createFloatingReply(post, quoteEl) {
   document.addEventListener('mousemove', e => {
     floatingReply.style.left = (e.clientX + 5) + 'px';
     floatingReply.style.top = (e.clientY + window.scrollY + 5) + 'px';
+
+    if (isMouseTooFar(quoteEl, e.clientX, e.clientY, 100))
+      if (floatingReply)
+        floatingReply.remove();
   });
 
   quoteEl.addEventListener('mouseleave', () => {
-    floatingReply.remove();
+    if (floatingReply)
+      floatingReply.remove();
   });
 
   document.body.appendChild(floatingReply);
