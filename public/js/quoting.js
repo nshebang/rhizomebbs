@@ -58,6 +58,8 @@ function createFloatingReply(post, quoteEl) {
   ${postType === 'post' ? `<blockquote class="post">` : '<blockquote class="aapost">'}
     ${post.content}
   </blockquote>`;
+  floatingReply.style.left = (e.clientX + 5) + 'px';
+  floatingReply.style.top = (e.clientY + window.scrollY + 5) + 'px';
 
   document.addEventListener('mousemove', e => {
     floatingReply.style.left = (e.clientX + 5) + 'px';
