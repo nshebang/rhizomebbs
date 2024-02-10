@@ -45,7 +45,7 @@ app.use(express.json({ limit: '2mb' }));
 app.use((req, res, next) => {
   res.setHeader(
     'Content-Security-Policy',
-    'default-src \'self\' \'unsafe-inline\'; img-src \'self\' https: data:;'
+    'default-src \'self\' \'unsafe-inline\'; img-src \'self\' * data:;'
   );
   res.setHeader('Referrer-Policy', 'strict-origin');
   next();
