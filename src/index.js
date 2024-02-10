@@ -48,6 +48,7 @@ app.use((req, res, next) => {
     'default-src \'self\' \'unsafe-inline\'; img-src \'self\' * data:;'
   );
   res.setHeader('Referrer-Policy', 'strict-origin');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
   next();
 });
 app.use((req, res, next) => {
