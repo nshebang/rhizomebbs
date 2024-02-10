@@ -453,6 +453,8 @@ app.post('/submit', async (req, res) => {
       const imageExtensions = /\.(png|gif|jpg|jpeg|bmp|webp)$/i;    
       if (url.match(imageExtensions) && !boards[formData.board].aa) {
         imageCount++;
+        if (!url.startsWith('https://'))
+          url = 'https://' + url.substring(url.indexOf('://') + 3);
         return `<a href="${url}" target="_blank"><img src="${url}" alt="${url}" loading="lazy"></a>`;
       } else {
         return `<a href="${url}" target="_blank">${url}</a>`;
