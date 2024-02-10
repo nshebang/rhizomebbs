@@ -43,6 +43,14 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true, limit: '2mb' }));
 app.use(express.json({ limit: '2mb' }));
 app.use((req, res, next) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    'default-src \'self\' \'unsafe-inline\'; img-src \'self\' https: data:;'
+  );
+  res.setHeader('Referrer-Policy', 'strict-origin');
+  next();
+});
+app.use((req, res, next) => {
   const token = req.cookies.jwt;
 
   req.isLoggedIn = false;
