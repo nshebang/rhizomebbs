@@ -106,7 +106,10 @@ app.post('/admin/login', (req, res) => {
   console.log(`New admin login. username=${username},time=${new Date().toISOString()}`);
   const user = { name: username };
   const accessToken = jwt.sign(user, secretKey, { expiresIn: '2h' });
-  res.cookie('jwt', accessToken);
+  res.cookie('jwt', accessToken, {
+    maxAge:  2 * 60 * 60 * 1000,
+    sameSite: 'strict'
+  });
   res.redirect('/');
 });
 
