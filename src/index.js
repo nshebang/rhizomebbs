@@ -45,7 +45,7 @@ app.use(express.json({ limit: '2mb' }));
 app.use((req, res, next) => {
   res.setHeader(
     'Content-Security-Policy',
-    'default-src \'self\' \'unsafe-inline\'; img-src \'self\' * data:;'
+    'default-src \'self\' \'unsafe-inline\'; img-src \'self\' * data:; frame-ancestors \'self\' https://chan.city;'
   );
   res.setHeader('Referrer-Policy', 'strict-origin');
   res.setHeader('X-Content-Type-Options', 'nosniff');
