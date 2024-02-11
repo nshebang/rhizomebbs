@@ -51,6 +51,7 @@ header {
 
 nav {
   background-color: #cce;
+  border-bottom: 1px solid black;
   color: #222;
   padding: 2px;
 }
@@ -95,7 +96,10 @@ img {
   background-color: #a4a4c8;
   color: black;
   padding: 10px;
-  border-bottom: 2px solid #555;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid black;
+  border-left: 1px solid lightgray;
+  border-right: 1px solid black;
 }
 
 .post {
