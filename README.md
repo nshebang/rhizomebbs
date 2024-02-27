@@ -1,6 +1,6 @@
 # rhizomebbs
 rhizomebbs is a simplistic BBS/textboard engine for the Spanish-speaking forum
-[IchoriaBBS](https://bbs.ichoria.xyz). Please note that this textboard engine
+[IchoriaBBS](https://bbs.ichoria.org). Please note that this textboard engine
 is project-specific, and not project-agnostic or a general purpose engine.
 You may need to fork this software in case you want to use it for your own
 project.
