@@ -44,6 +44,7 @@
       <noscript>(requiere javascript)</noscript>
     </article>
 
+    <a name="threadlist"></a>
     <article class="box">
       <% mainThreadList.forEach((thread, i) => { %>
       <a href="/<%= boardName %>/threads/<%= thread.timestamp %>"><b><%= i + 1%>.</b>
@@ -64,6 +65,7 @@
             <%= thread.title %>
           </a>
           <span class="thread-controls">
+            <a href="#threadlist">■</a>
             <a href="#t<%= (i === 0)? 10 : i %>">▲</a>
             <a href="#t<%= (i + 2 !== 10)? i + 2 : 1 %>">▼</a>
           </span>
