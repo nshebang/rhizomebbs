@@ -28,8 +28,16 @@
     <ul>
       <li>El motivo fue <b><%= ban.reason %></b></li>
       <li>Esta sanción fue aplicada el día <%= new Date(ban.timestamp).toLocaleString('es', { timeZone: 'UTC' }); %> UTC</li>
-      <li><%= ban.expires? `Expirará el día ${new Date(ban.expires).toLocaleString('es', { timeZone: 'UTC' })} UTC` :
-        'Este baneo es permanente y no expirará.' %></li>
+      
+      <% const rem = ban.expires - Date.now(); -%>
+      <% const dd = Math.floor(rem / (1000 * 60 * 60 * 24)); -%>
+      <% const hh = Math.floor((rem % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); -%>
+      <% const mm = Math.floor((rem % (1000 * 60 * 60)) / (1000 * 60)); -%>
+      <% const ss = Math.floor((rem % (1000 * 60)) / 1000); -%>
+      <li><%= ban.expires? `Expirará el día ${new Date(ban.expires)
+        .toLocaleString('es', { timeZone: 'UTC' })} UTC,
+        eso es, en ${dd} días, ${hh} horas, ${mm} minutos y ${ss} segundos` :
+        'Este baneo es permanente, y no expirará.' %></li>
     </ul>
     <img src="/img/bonk.gif">
     <p>
