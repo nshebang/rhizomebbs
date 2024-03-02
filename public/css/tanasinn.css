@@ -45,6 +45,9 @@ h2 a:hover {
 }
 
 nav {
+  padding: 2px;
+  border: 1px outset #999;
+  background-color: #222;
   text-align: left;
 }
 
@@ -124,11 +127,15 @@ img {
   color: #666;
 }
 
-h4 .post-controls {
+.metadata .post-controls {
   display: none;
 }
 
-h4:hover .post-controls {
+.metadata:hover {
+  background-color: #111;
+}
+
+.metadata:hover .post-controls {
   display: inline-block;
 }
 

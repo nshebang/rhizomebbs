@@ -144,11 +144,15 @@ img {
   color: #444;
 }
 
-h4 .post-controls {
+.metadata .post-controls {
   display: none;
 }
 
-h4:hover .post-controls {
+.metadata:hover {
+  background-color: #8a8ab0;
+}
+
+.metadata:hover .post-controls {
   display: inline-block;
 }
 
@@ -249,5 +253,12 @@ input[type="submit"] {
     overflow: hidden;
     white-space: normal;
     max-height: 100%;
+  }
+
+  .metadata {
+    margin-left: -10px;
+    margin-right: -10px;
+    font-size: 9pt;
+    background-color: #8a8ab0;
   }
 }

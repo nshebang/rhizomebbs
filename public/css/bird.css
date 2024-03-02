@@ -130,11 +130,11 @@ img {
   font-family: 'Courier New', Courier, monospace;
 }
 
-h4 .post-controls {
+.metadata .post-controls {
   display: none;
 }
 
-h4:hover .post-controls {
+.metadata:hover .post-controls {
   display: inline-block;
 }
 

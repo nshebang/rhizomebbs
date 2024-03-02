@@ -17,16 +17,16 @@
       <a href="/<%= boardName %>">Volver</a> |
       <a href="#postform"><b>Responder al hilo</b></a> |
       <a href="/<%= boardName %>/list">Lista de hilos</a> |
-      <a href="https://ichoria.org">ichoria</a> |
-      <a href="/">portada</a> |
-      <a href="/info">ayuda</a>
+      <a href="https://ichoria.org">Ichoria</a> |
+      <a href="/">Portada</a> |
+      <a href="/info">Ayuda</a>
     ]</nav>
   </header>
   <main>
     <article class="box threadview">
       <h2><%= thread.title %></h2>
       <a name="p1"></a>
-      <h4>1. 
+      <h4 class="metadata">1. 
         <span class="name"><%= board.fakeName %></span>
         <% if (thread.capcode) { %><span class="capcode"> ## Admin </span><% } %>
         <span class="date"><%= new Date(thread.timestamp)
@@ -51,7 +51,7 @@
 
       <% thread.replies.forEach(reply => { %>
       <a name="p<%= reply.number + 1 %>"></a>
-      <h4><%= reply.number + 1 %>. 
+      <h4 class="metadata"><%= reply.number + 1 %>. 
         <span class="name"><%= board.fakeName %></span>
         <% if (reply.capcode) { %><span class="capcode"> ## Admin </span><% } %>
         <span class="date"><%= new Date(reply.timestamp)
@@ -117,6 +117,7 @@
   <% if (isLoggedIn) { %><script type="text/javascript" src="/js/hammer.js" defer></script><% } %>
   <script type="text/javascript" src="/js/styles.js"></script>
   <script type="text/javascript" src="/js/thread.js" defer></script>
+  <script type="text/javascript" src="/js/mobile.js"></script>
   <script type="text/javascript" src="/js/quoting.js" defer></script>
 </body>
 </html>

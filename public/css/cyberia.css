@@ -142,11 +142,15 @@ hr {
   color: #444;
 }
 
-h4 .post-controls {
+.metadata .post-controls {
   display: none;
 }
 
-h4:hover .post-controls {
+.metadata:hover {
+  background-color: #100f12;
+}
+
+.metadata:hover .post-controls {
   display: inline-block;
 }
 

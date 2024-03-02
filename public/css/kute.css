@@ -153,11 +153,15 @@ hr {
   color: #444;
 }
 
-h4 .post-controls {
+.metadata .post-controls {
   display: none;
 }
 
-h4:hover .post-controls {
+.metadata:hover {
+  background-color: #fa7eb1;
+}
+
+.metadata:hover .post-controls {
   display: inline-block;
 }
 
