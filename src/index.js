@@ -278,7 +278,7 @@ app.get('/delete', async (req, res) => {
     refresh: '2',
     url: `${siteUrl}/${boardName}`,
   };
-  const originIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  const originIp = req.headers['x-forwarded-for'].split(',')[0] || req.socket.remoteAddress;
   if (post.ip !== originIp && !req.isLoggedIn)
     return res.render('submit', { result });
 
@@ -395,7 +395,7 @@ app.post('/submit', async (req, res) => {
   //if (userAgent.toLowerCase().includes('curl'))
   //  return res.status(403).send('403 Forbidden');
 
-  const originIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  const originIp = req.headers['x-forwarded-for'].split(',')[0] || req.socket.remoteAddress;
   const formData = req.body;
   if (!formData.board)
     return res.status(302).send({ redirectTo: '/' });
