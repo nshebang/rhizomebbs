@@ -67,7 +67,7 @@ function updateThreadReplies(data) {
       h4El.innerHTML = `
         ${number}. 
         <span class="name">${fakeName}</span>
-        <span class="date">${new Date(r.timestamp).toISOString()}</span>
+        <span class="date">${new Date(r.timestamp).toLocaleString('es', { timeZone: 'UTC' })} UTC</span>
         ${r.userId ? `<span class="uid">ID:${r.userId}</span>` : ''}
       `;
 

@@ -52,7 +52,8 @@
             <%= thread.title %>
             </b></a>
           </td>
-          <td><span class="date"><%= new Date(thread.timestamp).toISOString(); %></span></td>
+          <td><span class="date"><%= new Date(thread.timestamp)
+            .toLocaleString('es', { timeZone: 'UTC' }); %> UTC</span></td>
           <td><%= thread.replyCount + 1 %></td>
           <td><%= thread.closed? 'Sí' : 'No'; %></td>
           <td><%= thread.enableIds? 'Sí' : 'No'; %></td>

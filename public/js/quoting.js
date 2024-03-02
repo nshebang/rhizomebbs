@@ -74,7 +74,7 @@ function createFloatingReply(post, quoteEl) {
   <h4>${post.number + 1}. 
   <span class="name">${fakeName}</span>
   ${post.capcode? '<span class="capcode"> ## Admin </span>' : ''}
-  <span class="date">${new Date(post.timestamp).toISOString()}</span>
+  <span class="date">${new Date(post.timestamp).toLocaleString('es', { timeZone: 'UTC' })} UTC</span>
   ${post.userId ? `<span class="uid">ID:${post.userId}</span>` : ''}
   </h4>
   ${postType === 'post' ? `<blockquote class="post">` : '<blockquote class="aapost">'}

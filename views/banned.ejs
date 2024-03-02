@@ -15,18 +15,21 @@
       font-family: Arial, Helvetica, sans-serif;
       background-image: url('/img/static.gif');
     }
+    a:link, a:visited { color: rgb(164, 84, 255); }
+    a:hover { color: #c00; }
   </style>
 </head>
 <body>
-  <h2>Tu dirección IP fue baneada.</h2>
+  <h2>Tu dirección IP fue baneada. (｡•́︿•̀｡)</h2>
   <main>
     <p>
       Se restringió el acceso al BBS a tu dirección IP <b><%= ban.ip %></b>.
     </p>
     <ul>
       <li>El motivo fue <b><%= ban.reason %></b></li>
-      <li>Esta sanción fue aplicada el día <%= new Date(ban.timestamp).toISOString(); %></li>
-      <li><%= ban.expires? `Expirará el día ${new Date(ban.expires).toISOString()}` : 'Este baneo es permanente y no expirará.' %></li>
+      <li>Esta sanción fue aplicada el día <%= new Date(ban.timestamp).toLocaleString('es', { timeZone: 'UTC' }); %> UTC</li>
+      <li><%= ban.expires? `Expirará el día ${new Date(ban.expires).toLocaleString('es', { timeZone: 'UTC' })} UTC` :
+        'Este baneo es permanente y no expirará.' %></li>
     </ul>
     <img src="/img/bonk.gif">
     <p>

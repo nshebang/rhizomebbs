@@ -54,7 +54,8 @@
       </tr>
       <% latestPosts.forEach(p => { %>
       <tr class="post-row">
-        <td>[<%= new Date(p.timestamp).toISOString(); %>]</td>
+        <td>[<%= new Date(p.timestamp)
+          .toLocaleString('es', { timeZone: 'UTC' }); %> UTC]</td>
         <td>
           <a href="/<%= p.board %>/threads/<%= !p.parent? p.timestamp : p.parent; %>#p<%= p.number + 1 %>">
             <%= p.board %>/<%= !p.parent? p.timestamp : p.parent; %>#<%= p.number + 1 %></a>:
@@ -76,7 +77,8 @@
       <% blotterPosts.forEach(post => { %>
         <tr class="blotterpost">
           <td>
-            [<%= new Date(post.timestamp).toISOString(); %>]
+            [<%= new Date(post.timestamp)
+            .toLocaleString('es', { timeZone: 'UTC' }); %> UTC]
           </td>
           <td>
             <%- post.content %>

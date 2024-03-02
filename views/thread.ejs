@@ -29,7 +29,8 @@
       <h4>1. 
         <span class="name"><%= board.fakeName %></span>
         <% if (thread.capcode) { %><span class="capcode"> ## Admin </span><% } %>
-        <span class="date"><%= new Date(thread.timestamp).toISOString(); %></span>
+        <span class="date"><%= new Date(thread.timestamp)
+          .toLocaleString('es', { timeZone: 'UTC' }); %> UTC</span>
         <% if (thread.enableIds) { %><span class="uid">ID:<%= thread.userId %></span><% } %>
         <% if (isLoggedIn) { %><span class="note"><%= thread.ip.split('.').slice(0, 2).join('.') + '.*.*' %></span><% } %>
         <span class="post-controls">
@@ -53,7 +54,8 @@
       <h4><%= reply.number + 1 %>. 
         <span class="name"><%= board.fakeName %></span>
         <% if (reply.capcode) { %><span class="capcode"> ## Admin </span><% } %>
-        <span class="date"><%= new Date(reply.timestamp).toISOString(); %></span>
+        <span class="date"><%= new Date(reply.timestamp)
+          .toLocaleString('es', { timeZone: 'UTC' }); %> UTC</span>
         <% if (thread.enableIds) { %><span class="uid">ID:<%= reply.userId %></span><% } %>
         <% if (isLoggedIn) { %><span class="note"><%= reply.ip.split('.').slice(0, 2).join('.') + '.*.*' %></span><% } %>
         <span class="post-controls">
