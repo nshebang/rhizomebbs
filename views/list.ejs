@@ -39,6 +39,7 @@
           <th>#</th>
           <th>Título</th>
           <th>Fecha de publicación</th>
+          <th>Última respuesta</th>
           <th>Respuestas</th>
           <th>¿Cerrado?</th>
           <th><span title="¿IDs de usuario activadas?">uIDs</span></th>
@@ -54,6 +55,8 @@
           </td>
           <td><span class="date"><%= new Date(thread.timestamp)
             .toLocaleString('es', { timeZone: 'UTC' }); %> UTC</span></td>
+            <td><span class="date"><%= new Date(thread.lastReply)
+              .toLocaleString('es', { timeZone: 'UTC' }); %> UTC</span></td>
           <td><%= thread.replyCount + 1 %></td>
           <td><%= thread.closed? 'Sí' : 'No'; %></td>
           <td><%= thread.enableIds? 'Sí' : 'No'; %></td>

@@ -493,7 +493,7 @@ app.post('/submit', async (req, res) => {
     number: 0, 
     userId: '',
     lastBump: timestamp,
-    lastReply: 0,
+    lastReply: timestamp,
     sage: formData.sage? true : false,
     capcode: formData.capcode && req.isLoggedIn? true : false,
     enableIds: formData.enableIds? true: false,
