@@ -1,15 +1,14 @@
 html {
-  color-scheme: dark;
+  color-scheme: light;
   text-rendering: optimizeSpeed;
 }
 
 body {
   max-width: 800px;
   margin: auto;
-  background-color: #2c2b37;
-  background-image: radial-gradient(circle, #f9f0c220 1px, transparent 1px);
-  background-size: 20px 20px;
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #004040;
+  font-family: MS PGothic, Mona, Noto Sans Mono CJK JP, monospace;
+  color: #efefef;
 }
 
 /*
@@ -24,15 +23,19 @@ h1, h2, h3, h4 {
   margin: 0 0px 10px;
 }
 
-h2, h3 {
-  padding-left: 20px; 
-  background: url(/img/rose.png) no-repeat scroll;
-}
-
 .newthread {
   padding-left: 0;
   background: none;
   text-align: center;
+}
+
+h2 a:link, h2 a:visited {
+  color: #efefef;
+  transition: .2s;
+}
+
+h2 a:hover {
+  color: #1ee;
 }
 
 .thread-controls {
@@ -41,44 +44,23 @@ h2, h3 {
   float: right;
 }
 
-nav {
-  text-align: left;
-}
-
 header {
   text-align: center;
 }
 
 nav {
-  background-color: #cce;
-  border-bottom: 1px solid black;
-  color: #222;
+  text-align: left;
+  color: white;
   padding: 2px;
 }
 
-nav a:link, nav a:visited {
-  color: #32a;
+nav a:link, nav a:visited, a:link, a:visited {
+  color: #cfe;
+  transition: .2s;
 }
 
-a:link, a:visited {
-  color: rgb(164, 84, 255);
-}
-
-.box a:link, .box a:visited {
-  color: #32a;
-}
-
-nav a:hover, a:hover, .box a:hover {
-  color: #c00;
-}
-
-h2 a:link, h2 a:visited {
-  color: black !important;
-  text-decoration: none;
-}
-
-h2 a:hover {
-  text-decoration: underline;
+nav a:hover, a:hover {
+  color: #1ee;
 }
 
 img {
@@ -93,13 +75,8 @@ img {
 
 .box {
   margin-top: 10px;
-  background-color: #a4a4c8;
-  color: black;
+  color: white;
   padding: 10px;
-  border-top: 1px solid lightgray;
-  border-bottom: 1px solid black;
-  border-left: 1px solid lightgray;
-  border-right: 1px solid black;
 }
 
 .post {
@@ -120,19 +97,19 @@ img {
 }
 
 .quote {
-  border-left: 2px solid #444;
+  border-left: 2px solid #b7b7b7;
   padding-left: 10px;
-  color: #444;
+  color: #b7b7b7;
 }
 
 .name {
-  color: #226643;
-  font-weight: bold;
+  color: #efefef;
+  font-weight: bolder;
 }
 
 .capcode {
   font-weight: normal;
-  color: #c00;
+  color: red;
 }
 
 .uid {
@@ -141,15 +118,16 @@ img {
 
 .date, .note {
   font-weight: normal;
-  color: #444;
+  color: #b7b7b7;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.metadata:before {
+  content: '> ';
 }
 
 .metadata .post-controls {
   display: none;
-}
-
-.metadata:hover {
-  background-color: #8a8ab0;
 }
 
 .metadata:hover .post-controls {
@@ -176,11 +154,11 @@ img {
 }
 
 .threadlist tr:hover {
-  background: #8a8ab0;
+  background: #002e2e;
 }
 
 .threadlist th, .threadlist td {
-  border: 1px solid black;
+  border: 1px solid white;
   padding: 5px;
 }
 
@@ -201,10 +179,8 @@ img {
 code {
   padding: 5px;
   display: block;
-  background-color: #35303b;
-  background-image: url('/img/lain-block.gif');
-  background-position: right bottom;
-  background-repeat: no-repeat;
+  background-color: #0f0f0f;
+  border: 1px dotted white;
   color: white;
   white-space: nowrap;
 }
@@ -217,17 +193,39 @@ footer {
 
 input[type="text"], textarea {
   max-width: 100%;
-  background-color: #1a1921;
-  color: #eee;
+  background-color: #efefef;
+  border: 2px solid #999;
+  color: black;
   font-size: 12pt;
-  font-family: Arial, Helvetica, sans-serif;
+  transition: .2s;
+  font-family: MS PGothic, Mona, Noto Sans Mono CJK JP, monospace;
+}
+
+input[type=text]:hover, textarea:hover {
+  background-color: #cdf;
+}
+
+input[type=text]:focus, textarea:focus {
+  border-color: #08c;
+  background-color: #efefef;
 }
 
 input[type="submit"] {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 11pt;
-  color: #eee;
-  background-color: #1a1921;
+  color: black;
+  border: 2px solid #999;
+  background-color: #bbb;
+  transition: .2s;
+}
+
+input[type="submit"]:hover {
+  background-color: #cdf;
+  border-color: #888;
+}
+
+input[type="submit"]:focus {
+  border-color: #08c;
 }
 
 #floatingReply {
@@ -235,9 +233,9 @@ input[type="submit"] {
   position: absolute;
   margin: 0;
   padding: 10px;
-  border: 1px solid #ccc;
-  color: black;
-  background-color: #a4a4c8;
+  border: 1px dotted white;
+  color: #efefef;
+  background-color: #004040;
   max-width: 300px;
 }
 
@@ -250,19 +248,12 @@ input[type="submit"] {
     width: 100%;
     height: auto;
     resize: both;
-  } 
+  }
 
   .post {
     margin: 0 10px 10px;
     overflow: hidden;
     white-space: normal;
     max-height: 100%;
-  }
-
-  .metadata {
-    margin-left: -10px;
-    margin-right: -10px;
-    font-size: 9pt;
-    background-color: #8a8ab0;
   }
 }

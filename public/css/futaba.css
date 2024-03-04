@@ -214,6 +214,10 @@ input[type="submit"] {
   max-width: 300px;
 }
 
+#floatingReply img {
+  max-width: 50%;
+}
+
 @media (max-width: 767px) {
   textarea {
     width: 100%;
