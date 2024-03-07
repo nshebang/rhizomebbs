@@ -12,7 +12,7 @@ const BanManager = require('./bans');
 const Blotter = require('./blotter');
 const Utils = require('./utils');
 
-const VERSION = '1.1.6';
+const VERSION = '1.1.8';
 const app = express();
 const db = new QuickDB();
 const postMngr = new PostManager(db);
