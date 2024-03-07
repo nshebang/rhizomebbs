@@ -13,6 +13,7 @@ project.
 * Staff and admin tools
 * Styles
 * Javascript cosmetics and utils
+* Oekaki support (powered by [PaintBBS NEO](https://github.com/funige/neo))
 
 ## Dependencies
 You need to install the following software packages:
