@@ -11,7 +11,7 @@
   <link rel="<%= title === Object.keys(styles)[0] ? 'stylesheet' : 'alternate stylesheet'; %>"
     href="/css/<%= style %>" title="<%= title %>" media="screen"><% } %>
 </head>
-<body<% if (board.aa) { %> class="aa"<% } %>>
+<body<% if (board.aa || board.oekaki) { %> class="aa"<% } %>>
   <header>
     <nav>[
       <a href="https://ichoria.org">ichoria</a>
@@ -124,12 +124,40 @@
         <% }); %>
       
         <% if (!thread.closed) { %><hr>
+          <% if (board.oekaki) { -%>
+          <% if (!file.startsWith('https://saki.ichoria.org') ||
+          (file.startsWith('https://saki.ichoria.org') &&
+          parseInt(parent) !== thread.timestamp)) { -%>
+          <h4>¡A pintar!</h4>
+            <form action="/oekaki/paint" method="get" style="margin-bottom: 5px;">
+              <input type="hidden" name="parent" value="<%= thread.timestamp %>">
+              Tamaño: <input name="cwidth" type="text" placeholder="400"
+                style="width: 50px;" value="400"> x
+              <input name="cheight" type="text" placeholder="400"
+                style="width: 50px;" value="400">
+              <input type="submit" value="Empezar dibujo">
+            </form>
+            <% } else if (file.startsWith('https://saki.ichoria.org') &&
+            parseInt(parent) == thread.timestamp) { -%>
+            <h4>Vista previa:</h4>
+            <p>
+              <img src="<%= file %>" alt="Vista previa fallida">
+              <br>
+              <b>Recuerda no eliminar el link de tu post</b>
+            </p>
+          <% } -%>
+          <% } -%>
         <form action="/submit" method="post">
           <input type="hidden" name="parent" value="<%= thread.timestamp %>">
           <input type="hidden" name="board" value="<%= boardName %>">
 
+          <% if (!board.oekaki) { -%>
           <textarea name="epistula" cols="50" rows="7"
             placeholder="Cuéntanos tu respuesta..."></textarea>
+          <% } else { -%>
+          <textarea name="epistula" cols="50" rows="7"
+            placeholder="Cuéntanos tu respuesta..."><% if (file.startsWith('https://saki.ichoria.org') && parseInt(parent) === thread.timestamp) { %><%= `${file}\n\n` %><% } %></textarea>
+          <% } -%>
           <br>
           <input type="submit" value="Responder">
           <label for="sageru<%= thread.timestamp %>">
@@ -153,25 +181,54 @@
     <article class="box">
       <a name="postform"></a>
       <h3>Abrir nuevo hilo</h3>
+      <% if (board.oekaki) { -%>
+      <% if (!file.startsWith('https://saki.ichoria.org') ||
+      (file.startsWith('https://saki.ichoria.org') && parent !== '0')) { -%>
+      <h4>¡A pintar!</h4>
+      <form action="/oekaki/paint" method="get" style="margin-bottom: 5px;">
+        <input type="hidden" name="parent" value="0">
+        Tamaño: <input name="cwidth" type="text" placeholder="400"
+          style="width: 50px;" value="400"> x
+        <input name="cheight" type="text" placeholder="400"
+          style="width: 50px;" value="400">
+        <input type="submit" value="Empezar dibujo">
+      </form>
+      <% } else if (file.startsWith('https://saki.ichoria.org') && parent === '0') { -%>
+      <h4>Vista previa:</h4>
+      <p>
+        <img src="<%= file %>" alt="Vista previa fallida">
+        <br>
+        <b>Recuerda no eliminar el link de tu post</b>
+      </p>
+      <% } -%>
+      <% } -%>
+
       <form action="/submit" method="post">
         <input type="hidden" name="parent" value="0">
         <input type="hidden" name="board" value="<%= boardName %>">
-        
+
         <input type="text" name="titulus" placeholder="Título" size="30">
         <input type="submit" value="Abrir nuevo hilo"><br>
+        <% if (!board.oekaki) { -%>
         <textarea name="epistula" cols="50" rows="7"
-          placeholder="Cuéntanos tus ideas y pensamientos..."></textarea><br>
+          placeholder="Cuéntanos tus ideas y pensamientos..."></textarea>
+        <% } else { -%>
+        <textarea name="epistula" cols="50" rows="7"
+          placeholder="Cuéntanos tus ideas y pensamientos..."><% if (file.startsWith('https://saki.ichoria.org') && parent === '0') { %><%= `${file}\n\n` %><% } %></textarea>
+        <% } -%>
+        <br>
         <label for="ids">
           <input name="enableIds"
             id="ids"
             type="checkbox">usar IDs
         </label>
-        <% if (isLoggedIn) { %><label for="cap">
-          <input name="capcode"
-            id="cap"
-            type="checkbox">capcode
-        </label><% } %>
-        <div style="display: none;">
+        <% if (isLoggedIn) { -%>
+        <label for="cap">
+        <input name="capcode"
+          id="cap"
+          type="checkbox">capcode
+        </label>
+        <% } -%><div style="display: none;">
           <input type="text" name="name">
           <input type="text" name="email">
         </div>

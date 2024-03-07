@@ -8,6 +8,9 @@ function loadActiveStyleSheet(title) {
   for (let i = 0; i < links.length; i++) {
     const rel = links[i].getAttribute('rel');
     const styleTitle = links[i].getAttribute('title');
+
+    if (styleTitle === 'paintbbs')
+      continue;
     
     if (rel.indexOf('style') !== -1 && title) {
       links[i].disabled = true;
@@ -28,6 +31,9 @@ function getPreferredStyleSheet() {
   const links = document.getElementsByTagName('link');
   for (let i = 0; i < links.length; i++) {
     const rel = links[i].getAttribute('rel');
+
+    if (links[i].getAttribute('title') === 'paintbbs')
+      continue;
 
     if (rel.indexOf('stylesheet') !== -1 &&
         rel.indexOf('alternate') === -1 &&
@@ -58,6 +64,8 @@ function setStyle() {
   const links = document.querySelectorAll('link[title]');
   for (let i = 0; i < links.length; i++) {
     const link = links[i];
+    if (link.title === 'paintbbs')
+      continue;
     link.disabled = selectedStyle !== link.title;
   }
   

@@ -24,7 +24,8 @@
       "info": "Test info",
       "banner": "logo.png",
       "fakeName": "Anon",
-      "aa": false
+      "aa": false,
+      "oekaki": false
     }
   }
 }

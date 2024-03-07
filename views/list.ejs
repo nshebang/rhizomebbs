@@ -11,7 +11,7 @@
     <link rel="<%= title === Object.keys(styles)[0] ? 'stylesheet' : 'alternate stylesheet'; %>"
       href="/css/<%= style %>" title="<%= title %>" media="screen"><% } %>
 </head>
-<body <% if (board.aa) { %>class="aa"<% } %>>
+<body <% if (board.aa || board.oekaki) { %>class="aa"<% } %>>
   <header>
     <nav>[
       <a href="https://ichoria.org">ichoria</a>

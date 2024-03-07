@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="pragma" content="no-cache">
+  <link rel="icon" type="image/gif" href="/img/favicon.gif">
+  <title>Lista de hilos de <%= board.title %>@Ichoria BBS</title>
+
+  <link rel="stylesheet" type="text/css" title="paintbbs"
+    href="https://cdn.jsdelivr.net/gh/funige/neo@master/dist/PaintBBS-1.6.3.css">
+
+  <% for (const [title, style] of Object.entries(styles)) { %>
+    <link rel="<%= title === Object.keys(styles)[0] ? 'stylesheet' : 'alternate stylesheet'; %>"
+      href="/css/<%= style %>" title="<%= title %>" media="screen"><% } %>
+</head>
+<body <% if (board.aa || board.oekaki) { %>class="aa"<% } %>>
+  <header>
+    <nav>[
+      <a href="https://ichoria.org">ichoria</a>
+      <a href="/">portada</a>
+      <a href="/info">ayuda</a>
+      <% boards.forEach(board => { %>
+      <a href="/<%= board %>"><%= board %></a>
+    <% }); %> ]</nav>
+  </header>
+  <main>
+    <article class="box">
+      <h1><%= board.title %>@Ichoria BBS</h1>
+      <hr>
+      <h4><a href="/<%= boardName %>">Volver</a></h4>
+    </article>
+
+    <article class="box">
+      <applet-dummy id="oekaki" name="paintbbs" width="640" height="540">
+        <param name="image_width" value="<%= canvasWidth %>">
+        <param name="image_height" value="<%= canvasHeight %>">
+        <param name="image_bkcolor" value="#FFFFFF">
+        <param name="image_size" value="0">
+        <param name="undo" value="90">
+        <param name="undo_in_mg" value="15">
+        <param name="color_text" value="#EFEFFF">
+        <param name="color_bk" value="#E8EFFF">
+        <param name="color_bk2" value="#D5D8EF">
+        <param name="color_icon" value="#A1B8D8">
+        <param name="color_iconselect" value="#000000">
+        <param name="poo" value="false">
+        <param name="send_advance" value="true">
+        <param name="thumbnail_width" value="100%">
+        <param name="thumbnail_height" value="100%">
+        <param name="tool_advance" value="true">
+        <param name="tool_color_button" value="#D2D8FF">
+        <param name="tool_color_button2" value="#D2D8FF">
+        <param name="tool_color_text" value="#5A5781">
+        <param name="tool_color_bar" value="#D2D8F0">
+        <param name="tool_color_frame" value="#7474AB">
+        </applet-dummy>
+        <div style="text-align: center; margin-top: 10px;">
+          <input type="submit" value="Terminar y enviar dibujo"
+            style="padding: 8px;" id="submit-drawing">
+        </div>
+    </article>
+  </main>
+  <footer>
+    <hr><% if (isLoggedIn) { %><a href="/admin/logout"><b>logout</b></a><br><% } %>
+    - rhizomebbs <%= VERSION %> + PaintBBS Neo 1.6.3 -
+  </footer>
+  <script type="text/javascript" src="/js/styles.js"></script>
+  <script type="text/javascript" src="/js/mobile.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/funige/neo@master/dist/PaintBBS-1.6.3.js"></script>
+  <script type="text/javascript" src="/js/oekaki.js"></script>
+</body>
+</html>

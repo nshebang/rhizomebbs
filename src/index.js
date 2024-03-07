@@ -45,7 +45,7 @@ app.use(express.json({ limit: '2mb' }));
 app.use((req, res, next) => {
   res.setHeader(
     'Content-Security-Policy',
-    'default-src \'self\' \'unsafe-inline\'; img-src \'self\' data: https:; frame-ancestors \'self\' https://chan.city;'
+    'default-src \'self\' https://cdn.jsdelivr.net https://saki.ichoria.org \'unsafe-inline\'; img-src \'self\' data: https:; frame-ancestors \'self\' https://chan.city;'
   );
   res.setHeader('Referrer-Policy', 'strict-origin');
   res.setHeader('X-Content-Type-Options', 'nosniff');
@@ -303,6 +303,9 @@ app.get('/:board', async (req, res) => {
     const mainThreadList = await postMngr.getLastNThreads(boardName, 30);
     const rawThreads = await postMngr.getLastNThreads(boardName, 10);
 
+    const file = req.query.file ?? '';
+    const parent = req.query.parent ?? '';
+
     const threadPromises = rawThreads.map(async t => {
       const lastReplies = await postMngr.getLastNReplies(boardName, t.timestamp, 4);
       return Object.assign(t, { replies: lastReplies });
@@ -319,6 +322,8 @@ app.get('/:board', async (req, res) => {
       threads,
       mainThreadList,
       isLoggedIn: req.isLoggedIn,
+      file,
+      parent
     });
   } else {
     res.status(404).render('not-found');
@@ -333,6 +338,9 @@ app.get('/:board/threads/:threadId', async (req, res) => {
   if (boards[boardName] && baseThread) {
     const board = boards[boardName];
     
+    const file = req.query.file ?? '';
+    const parent = req.query.parent ?? '';
+
     const replies = await postMngr.getAllReplies(boardName, baseThread.timestamp);
     const thread = Object.assign(baseThread, { replies: replies });
 
@@ -344,6 +352,8 @@ app.get('/:board/threads/:threadId', async (req, res) => {
       styles,
       thread,
       isLoggedIn: req.isLoggedIn,
+      file,
+      parent
     });
   } else {
     res.status(404).render('not-found');
@@ -365,6 +375,29 @@ app.get('/:board/list', async (req, res) => {
       styles,
       threads,
       isLoggedIn: req.isLoggedIn,
+    });
+  } else {
+    res.status(404).render('not-found');
+  }
+});
+
+app.get('/:board/paint', (req, res) => {
+  const boardName = req.params['board'];
+
+  if (boards[boardName] && boards[boardName].oekaki) {
+    const board = boards[boardName];
+    const canvasWidth = req.query.cwidth ?? '400';
+    const canvasHeight = req.query.cheight ?? '400';
+  
+    res.render('paint', {
+      VERSION,
+      boardName,
+      board,
+      boards: Object.keys(boards),
+      styles,
+      isLoggedIn: req.isLoggedIn,
+      canvasWidth,
+      canvasHeight
     });
   } else {
     res.status(404).render('not-found');
@@ -450,9 +483,6 @@ app.post('/submit', async (req, res) => {
 
   if (result.msg !== 'ok')
     return res.render('submit', { result });
-
-  userTimestamps[`${board}_${parent === 0 ? 'thread' : 'reply'}`] = timestamp;
-  postTimestamps[originIp] = userTimestamps;
   
   let imageCount = 0;
   const content = formData.epistula
@@ -487,6 +517,14 @@ app.post('/submit', async (req, res) => {
     result.msg = 'Solo se permite un máximo de 3 imágenes por post.';
     return res.render('submit', { result });
   }
+
+  if (boards[board].oekaki && imageCount < 1 && !parent) {
+    result.msg = 'Este es un tablón oekaki. Debes pegar al menos una imágen o dibujo para abrir un hilo.';
+    return res.render('submit', { result });
+  }
+
+  userTimestamps[`${board}_${parent === 0 ? 'thread' : 'reply'}`] = timestamp;
+  postTimestamps[originIp] = userTimestamps;
 
   const post = {
     timestamp: timestamp,
