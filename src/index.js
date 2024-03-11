@@ -101,10 +101,17 @@ app.post('/admin/login', (req, res) => {
 
   const username = formData.name;
   const password = formData.signum;
+
+  let originIp = req.socket.remoteAddress;
+  if (req.headers['x-forwarded-for'])
+    originIp = req.headers['x-forwarded-for'].split(',')[0];
+  
+  console.log(`Admin login attempt from ${originIp} (username=${username})`);
+
   if (password !== adminUsers[username] || req.isLoggedIn)
     return res.redirect('/admin');
 
-  console.log(`New admin login. username=${username},time=${new Date().toISOString()}`);
+  console.log(`Successful admin login from ${originIp} (username=${username})`);
   const user = { name: username };
   const accessToken = jwt.sign(user, secretKey, { expiresIn: '2h' });
   res.cookie('jwt', accessToken, {
@@ -181,6 +188,8 @@ app.get('/admin/ban', async (req, res) => {
     author: author,
   };
   await banMngr.addBan(ban);
+
+  console.log(`New ban applied by ${author} to ${ip} (reason=${reason})`);
   const result = {
     msg: 'Dirección IP baneada exitosamente.',
     refresh: '3',
@@ -282,7 +291,7 @@ app.get('/delete', async (req, res) => {
 
   let originIp = req.socket.remoteAddress;
   if (req.headers['x-forwarded-for'])
-    originIp = req.headers['x-forwarded-for'].split(',')[0]
+    originIp = req.headers['x-forwarded-for'].split(',')[0];
 
   if (post.ip !== originIp && !req.isLoggedIn)
     return res.render('submit', { result });
@@ -435,7 +444,7 @@ app.post('/submit', async (req, res) => {
 
   let originIp = req.socket.remoteAddress;
   if (req.headers['x-forwarded-for'])
-    originIp = req.headers['x-forwarded-for'].split(',')[0]
+    originIp = req.headers['x-forwarded-for'].split(',')[0];
 
   const formData = req.body;
   if (!formData.board)
@@ -565,6 +574,8 @@ app.post('/submit', async (req, res) => {
 
   userTimestamps[`${board}_${parent === 0 ? 'thread' : 'reply'}`] = timestamp;
   postTimestamps[originIp] = userTimestamps;
+
+  console.log(`${originIp} posted on ${board} (parent=${parent}, title=${formData.titulus ?? ''})`);
 
   const post = {
     timestamp: timestamp,
