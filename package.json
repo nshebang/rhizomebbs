@@ -19,7 +19,8 @@
     "jsonwebtoken": "^9.0.2",
     "nconf": "^0.12.1",
     "quick.db": "^9.1.7",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "youtube-dl-exec": "^2.5.7"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"

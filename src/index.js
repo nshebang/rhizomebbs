@@ -5,6 +5,7 @@ const favicon = require('serve-favicon');
 const jwt = require('jsonwebtoken');
 const nconf = require('nconf');
 const path = require('path');
+const ytdl = require('youtube-dl-exec');
 const { QuickDB } = require('quick.db');
 
 const PostManager = require('./posts');
@@ -30,6 +31,7 @@ const secretKey = nconf.get('secretKey');
 const styles = nconf.get('styles');
 const replyCooldown = nconf.get('replyCooldown');
 const threadCooldown = nconf.get('threadCooldown');
+const invidiousInstances = nconf.get('invidiousInstances');
 
 const postTimestamps = {};
 
@@ -485,17 +487,28 @@ app.post('/submit', async (req, res) => {
     return res.render('submit', { result });
   
   let imageCount = 0;
-  const content = formData.epistula
+  let videoIds = [];
+  let content = formData.epistula
     .replace(/&/g,'&amp;')
     .replace(/</g,'&lt;')
     .replace(/>/g,'&gt;')
     .replace(/(https?:\/\/\S+)/g, (match, url) => {
-      const imageExtensions = /\.(png|gif|jpg|jpeg|bmp|webp)$/i;    
-      if (url.match(imageExtensions) && !boards[formData.board].aa) {
+      const imageRegex = /\.(png|gif|jpg|jpeg|bmp|webp)$/i;
+      const youtubeRegex = /(vi\/|v=|\/v\/|youtu\.be\/|\/shorts\/|\/embed\/)([a-zA-Z0-9_-]{11})/;
+
+      const imageMatch = url.match(imageRegex);
+      const youtubeMatch = url.match(youtubeRegex);
+
+      if (imageMatch && !boards[formData.board].aa) {
         imageCount++;
         if (!url.startsWith('https://'))
           url = 'https://' + url.substring(url.indexOf('://') + 3);
         return `<a href="${url}" target="_blank"><img src="${url}" alt="${url}" loading="lazy"></a>`;
+      } else if (youtubeMatch) {
+        const videoId = youtubeMatch[2];
+        videoIds.push([url, videoId]);
+
+        return `### ${videoId} ###`;
       } else {
         return `<a href="${url}" target="_blank">${url}</a>`;
       }
@@ -521,6 +534,34 @@ app.post('/submit', async (req, res) => {
   if (boards[board].oekaki && imageCount < 1 && !parent) {
     result.msg = 'Este es un tablón oekaki. Debes pegar al menos una imágen o dibujo para abrir un hilo.';
     return res.render('submit', { result });
+  }
+
+  for(let i = 0; i < videoIds.length; i++) {
+    const videoUrl = videoIds[i][0];
+    const videoId = videoIds[i][1];
+    const regexp = new RegExp(`### ${videoId} ###`, 'g');
+
+    try {
+      const videoInfo = await ytdl(`https://www.youtube.com/watch?v=${videoId}`, {
+        dumpJson: true,
+        addHeader: ['referer:youtube.com', 'user-agent:googlebot']
+      });
+      
+      content = content.replace(regexp,
+        `<a href="${videoUrl}" target="_blank">
+        <div class="youtube">
+          <div class="thumb">
+            <img src="https://i.ytimg.com/vi/${videoId}/default.jpg">
+            <span class="duration">${videoInfo.duration_string}</span>
+          </div>
+          <b>${videoInfo.title}</b><br>${videoInfo.uploader}
+        </div>
+        </a>`.replace(/\n/g, '')
+      );
+    } catch (error) {
+      console.error('youtube-dl library throw an error', error);
+      content = content.replace(regexp, `<a href="${videoUrl}" target="_blank">${videoUrl}</a>`);
+    }
   }
 
   userTimestamps[`${board}_${parent === 0 ? 'thread' : 'reply'}`] = timestamp;
