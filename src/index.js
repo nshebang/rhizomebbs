@@ -551,7 +551,7 @@ app.post('/submit', async (req, res) => {
         `<a href="${videoUrl}" target="_blank">
         <div class="youtube">
           <div class="thumb">
-            <img src="https://i.ytimg.com/vi/${videoId}/default.jpg">
+            <img src="https://i.ytimg.com/vi/${videoId}/default.jpg" loading="lazy">
             <span class="duration">${videoInfo.duration_string}</span>
           </div>
           <b>${videoInfo.title}</b><br>${videoInfo.uploader}
