@@ -31,7 +31,6 @@ const secretKey = nconf.get('secretKey');
 const styles = nconf.get('styles');
 const replyCooldown = nconf.get('replyCooldown');
 const threadCooldown = nconf.get('threadCooldown');
-const invidiousInstances = nconf.get('invidiousInstances');
 
 const postTimestamps = {};
 
