@@ -53,8 +53,8 @@ config file:
 ```
 "secretKey": "VERY LONG STRING"
 ```
-rhizomebbs provides a default secret key, but if you shouldn't use it
-one as it's only there for testing purposes.
+rhizomebbs provides a default secret key, but you shouldn't use it as it's
+only there for testing the software while in development.
 
 8. Customize or translate the software if needed.
 9. Run `npm start` to start the BBS server, and then
