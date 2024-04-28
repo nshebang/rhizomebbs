@@ -1,6 +1,6 @@
-const crypto = require('crypto');
+import crypto from 'crypto';
 
-class PostManager {
+export class PostManager {
   constructor(db) {
     this.db = db;
   }
@@ -137,5 +137,3 @@ class PostManager {
     return posts.length > 0? (matchingPosts.length > 0? matchingPosts[0] : null) : null;
   }
 }
-
-module.exports = PostManager;

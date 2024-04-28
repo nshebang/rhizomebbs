@@ -1,4 +1,4 @@
-class BanManager {
+export class BanManager {
   constructor(db) {
     this.db = db;
   }
@@ -21,5 +21,3 @@ class BanManager {
     await this.db.set('bans', newBans);
   }
 }
-
-module.exports = BanManager;

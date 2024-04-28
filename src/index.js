@@ -1,17 +1,25 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const favicon = require('serve-favicon');
-const jwt = require('jsonwebtoken');
-const nconf = require('nconf');
-const path = require('path');
-const ytdl = require('youtube-dl-exec');
-const { QuickDB } = require('quick.db');
+import express from 'express';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import favicon from 'serve-favicon';
 
-const PostManager = require('./posts');
-const BanManager = require('./bans');
-const Blotter = require('./blotter');
-const Utils = require('./utils');
+import jwt from 'jsonwebtoken';
+const { sign, verify } = jwt;
+
+import nconf from 'nconf';
+import { fileURLToPath } from 'url';
+import path from 'path';
+import ytdl from 'youtube-dl-exec';
+
+import { QuickDB } from 'quick.db';
+import { lookup } from 'dnsbl';
+
+import { PostManager } from './posts.js';
+import { BanManager } from './bans.js';
+import { Blotter } from './blotter.js';
+import { Utils } from './utils.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const VERSION = '1.1.8';
 const app = express();
@@ -466,6 +474,7 @@ app.post('/submit', async (req, res) => {
   const userTimestamps = postTimestamps[originIp] || {};
   const lastReplyTimestamp = userTimestamps[`${board}_reply`] || 0;
   const lastThreadTimestamp = userTimestamps[`${board}_thread`] || 0;
+  const isKnownSpammer = await lookup(originIp, 'all.s5h.net');
   let result = {
     msg: '',
     refresh: '3',
@@ -476,6 +485,9 @@ app.post('/submit', async (req, res) => {
       'You will regret that.' :
     !formData.board.trim().length ? 
       'No se especificó un tablón.' :
+    isKnownSpammer ?
+      'Tu dirección IP actual se encuentra en una lista de IPs de spam.' +
+      'Esto no es un baneo, para mayor información contacta a admin@ichoria.org' :
     thread && thread.closed ?
       'Este hilo ha sido cerrado y ya no es posible responder.' :
     parent === 0 && (timestamp - lastThreadTimestamp) < threadCooldown ?
@@ -493,7 +505,7 @@ app.post('/submit', async (req, res) => {
 
   if (result.msg !== 'ok')
     return res.render('submit', { result });
-  
+
   let imageCount = 0;
   let videoIds = [];
   let content = formData.epistula

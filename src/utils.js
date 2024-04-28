@@ -1,4 +1,4 @@
-class Utils {
+export class Utils {
   parseUnixMillis(timeString) {
     const regex = /(\d+)\s*([dhms])/g;
 
@@ -22,5 +22,3 @@ class Utils {
     return totalMillis;
   }
 }
-
-module.exports = Utils;

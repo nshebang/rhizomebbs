@@ -1,4 +1,4 @@
-class Blotter {
+export class Blotter {
   constructor(db) {
     this.db = db;
   }
@@ -20,5 +20,3 @@ class Blotter {
     await this.db.set('blotter', newPosts);
   }
 }
-
-module.exports = Blotter;
