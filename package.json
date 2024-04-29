@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "pm2 start ./ecosystem.config.js --env production",
+    "start": "pm2 start ./ecosystem.config.cjs --env production",
     "devStart": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
