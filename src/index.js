@@ -21,7 +21,7 @@ import { Utils } from './utils.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const VERSION = '1.1.8';
+const VERSION = '1.1.9';
 const app = express();
 const db = new QuickDB();
 const postMngr = new PostManager(db);
