@@ -68,11 +68,11 @@ app.use((req, res, next) => {
   req.user = null;
   
   if (!token)
-  return next();
+    return next();
   
   jwt.verify(token, secretKey, (err, user) => {
     if (err)
-    return next();
+      return next();
     req.isLoggedIn = true;
     req.user = user;
     next();
@@ -106,19 +106,19 @@ app.get('/admin', (req, res) => {
 app.post('/admin/login', (req, res) => {
   const formData = req.body;
   if (formData.password)
-  return res.status(404).render('not-found');
+    return res.status(404).render('not-found');
   
   const username = formData.name;
   const password = formData.signum;
   
   let originIp = req.socket.remoteAddress;
   if (req.headers['x-forwarded-for'])
-  originIp = req.headers['x-forwarded-for'].split(',')[0];
+    originIp = req.headers['x-forwarded-for'].split(',')[0];
   
   console.log(`Admin login attempt from ${originIp} (username=${username})`);
   
   if (password !== adminUsers[username] || req.isLoggedIn)
-  return res.redirect('/admin');
+    return res.redirect('/admin');
   
   console.log(`Successful admin login from ${originIp} (username=${username})`);
   const user = { name: username };
@@ -151,7 +151,7 @@ app.post('/admin/blotter/new', async (req, res) => {
   }; 
   
   if (!formData.content || !formData.content.trim().length)
-  return res.render('submit', { result });
+    return res.render('submit', { result });
   
   const post = {
     timestamp: Date.now(),
@@ -165,7 +165,7 @@ app.post('/admin/blotter/new', async (req, res) => {
 
 app.get('/admin/blotter/delete', async (req, res) => {
   if (!req.isLoggedIn)
-  return res.status(404).render('not-found');
+    return res.status(404).render('not-found');
   
   const timestamp = parseInt(req.query.id ?? 0);
   await blotter.deleteBlotterPost(timestamp);
@@ -179,7 +179,7 @@ app.get('/admin/blotter/delete', async (req, res) => {
 
 app.get('/admin/ban', async (req, res) => {
   if (!req.isLoggedIn)
-  return res.status(404).render('not-found');
+    return res.status(404).render('not-found');
   const ip = req.query.ip ?? '';
   const reason = req.query.reason ?? '';
   const now = Date.now();
@@ -209,7 +209,7 @@ app.get('/admin/ban', async (req, res) => {
 
 app.get('/admin/unban', async (req, res) => {
   if (!req.isLoggedIn)
-  return res.status(404).render('not-found');
+    return res.status(404).render('not-found');
   const ip = req.query.ip ?? '';
   let result = {
     msg: 'La dirección IP especificada no está baneada.',
@@ -219,7 +219,7 @@ app.get('/admin/unban', async (req, res) => {
   
   const ban = await banMngr.getBan(ip);
   if (!ban) 
-  return res.render('submit', { result });
+    return res.render('submit', { result });
   await banMngr.deleteBan(ip);
   result.msg = 'Se eliminó el baneo a la IP especificada.';
   res.render('submit', { result });
@@ -227,7 +227,7 @@ app.get('/admin/unban', async (req, res) => {
 
 app.get('/admin/nuke', async (req, res) => {
   if (!req.isLoggedIn)
-  return res.status(404).render('not-found');
+    return res.status(404).render('not-found');
   const ip = req.query.ip ?? '';
   const reason = req.query.reason ?? '';
   const now = Date.now();
@@ -261,7 +261,7 @@ app.get('/admin/nuke', async (req, res) => {
 
 app.get('/admin/close', async (req, res) => {
   if (!req.isLoggedIn)
-  return res.status(404).render('not-found');
+    return res.status(404).render('not-found');
   const boardName = req.query.board ?? '';
   const threadId = req.query.thread ?? '';
   
@@ -272,7 +272,7 @@ app.get('/admin/close', async (req, res) => {
   };
   const thread = await postMngr.getThread(boardName, parseInt(threadId));
   if (!thread)
-  return res.render('submit', { result });
+    return res.render('submit', { result });
   
   await postMngr.closeThread(boardName, parseInt(threadId));
   result.msg = 'Hilo cerrado exitosamente.';
@@ -291,7 +291,7 @@ app.get('/delete', async (req, res) => {
   );
   
   if (!post)
-  return res.status(404).render('not-found');
+    return res.status(404).render('not-found');
   let result = {
     msg: 'No es posible borrar ese post.',
     refresh: '2',
@@ -300,10 +300,10 @@ app.get('/delete', async (req, res) => {
   
   let originIp = req.socket.remoteAddress;
   if (req.headers['x-forwarded-for'])
-  originIp = req.headers['x-forwarded-for'].split(',')[0];
+    originIp = req.headers['x-forwarded-for'].split(',')[0];
   
   if (post.ip !== originIp && !req.isLoggedIn)
-  return res.render('submit', { result });
+    return res.render('submit', { result });
   
   await postMngr.deletePost(
     boardName,
@@ -453,11 +453,11 @@ app.post('/submit', async (req, res) => {
   
   let originIp = req.socket.remoteAddress;
   if (req.headers['x-forwarded-for'])
-  originIp = req.headers['x-forwarded-for'].split(',')[0];
+    originIp = req.headers['x-forwarded-for'].split(',')[0];
   
   const formData = req.body;
   if (!formData.board)
-  return res.status(302).send({ redirectTo: '/' });
+    return res.status(302).send({ redirectTo: '/' });
   
   const ban = await banMngr.getBan(originIp);
   if (ban) {
@@ -580,7 +580,6 @@ app.post('/submit', async (req, res) => {
           validRolls.push('1d6');
         roller.roll(...validRolls);
 
-        console.log(roller.log);
         let r = 1;
         resultString += '<div class="roll">'
         roller.log.forEach(roll => {
