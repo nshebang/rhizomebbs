@@ -112,6 +112,13 @@ img {
   color: red;
 }
 
+.roll {
+  padding: 4px;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: white;
+}
+
 .uid {
   font-weight: normal;
 }

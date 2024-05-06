@@ -120,6 +120,14 @@ img {
   color: #c00;
 }
 
+.roll {
+  background-color: #0f0f0f;
+  padding: 4px;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #aac1df;
+}
+
 .uid {
   font-weight: normal;
 }

@@ -143,6 +143,16 @@ hr {
   text-shadow: 1px 1px gray;
 }
 
+.roll {
+  border: 2px dotted #35000e;
+  background-image: url('/img/move_heart.gif');
+  padding: 4px;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #ec3131;
+  text-shadow: 1px 1px gray;
+}
+
 .uid {
   font-weight: normal;
 }

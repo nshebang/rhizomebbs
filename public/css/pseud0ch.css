@@ -122,6 +122,14 @@ img {
   color: #c00;
 }
 
+.roll {
+  border: 4px double grey;
+  padding: 4px;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #c00;
+}
+
 .uid {
   font-weight: normal;
 }

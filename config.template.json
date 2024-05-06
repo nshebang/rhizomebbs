@@ -25,7 +25,8 @@
       "banner": "logo.png",
       "fakeName": "Anon",
       "aa": false,
-      "oekaki": false
+      "oekaki": false,
+      "game": false
     }
   }
 }

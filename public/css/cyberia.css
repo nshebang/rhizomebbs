@@ -133,6 +133,14 @@ hr {
   color: #c00;
 }
 
+.roll {
+  padding: 4px;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: goldenrod;
+  text-shadow: 1px 1px goldenrod, 0 0 10px;
+}
+
 .uid {
   font-weight: normal;
 }

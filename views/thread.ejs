@@ -120,6 +120,10 @@
         <textarea name="epistula" cols="50" rows="7"
           placeholder="Cuéntanos tu respuesta..."><% if (file.startsWith('https://saki.ichoria.org') && parseInt(parent) === thread.timestamp) { %><%= `${file}\n\n` %><% } %></textarea>
         <% } -%>
+        <% if (board.game) { -%>
+        <br>
+        <input type="text" name="imperatum" placeholder="/comando" size="30">
+        <% } -%>
         <br>
         <input type="submit" value="Responder">
         <label for="sageru<%= thread.timestamp %>">

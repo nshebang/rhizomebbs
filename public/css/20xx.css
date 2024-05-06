@@ -128,6 +128,15 @@ hr {
   color: #c00;
 }
 
+.roll {
+  border: 1px solid blue;
+  background-color: #EFEFEF;
+  padding: 4px;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #c00;
+}
+
 .uid {
   font-weight: normal;
 }

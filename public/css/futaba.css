@@ -115,6 +115,14 @@ img {
   color: #c00;
 }
 
+.roll {
+  background-color: #EEAA88;
+  padding: 4px;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #c00;
+}
+
 .uid {
   font-weight: normal;
 }
