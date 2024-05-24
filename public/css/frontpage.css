@@ -30,6 +30,29 @@ h3 {
   margin: 0px 10px 10px;
 }
 
+.index {
+  background-color: #324742;
+  border: 2px dotted white;
+  padding: 8px;
+  max-width: 50%;
+}
+
+.index a:link, .index a:visited {
+  color: #bd82ff;
+}
+
+.index a:hover {
+  color: #c00;
+}
+
+.index-title {
+  margin: 0;
+}
+
+.index-list {
+  list-style: square;
+}
+
 .spoiler {
   background-color: black;
   color: black;
