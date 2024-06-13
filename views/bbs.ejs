@@ -78,7 +78,7 @@
           <% if (thread.enableIds) { %><span class="uid">ID:<%= thread.userId %></span><% } %>
           <% if (isLoggedIn) { %><span class="note"><%= thread.ip.split('.').slice(0, 2).join('.') + '.*.*' %></span><% } %>
           <span class="post-controls">
-            <a href="/delete?board=<%= boardName %>&thread=<%= thread.timestamp %>&number=1"
+            <a href="/delete?board=<%= boardName %>&thread=<%= thread.timestamp %>&number=1" rel="nofollow"
               onclick="if (!confirm('¿Eliminar post no. 1 y sus respuestas?')) return false;">del</a>
             <% if (isLoggedIn) { %>
               <a href="#" onclick="ban('<%= thread.ip %>');">ban</a>
@@ -110,6 +110,7 @@
           <% if (isLoggedIn) { %><span class="note"><%= reply.ip.split('.').slice(0, 2).join('.') + '.*.*' %></span><% } %>
           <span class="post-controls">
             <a href="/delete?board=<%= boardName %>&thread=<%= thread.timestamp %>&number=<%= reply.number + 1 %>"
+              rel="nofollow"
               onclick="if (!confirm('¿Eliminar post no. <%= reply.number + 1 %> ?')) return false;">del</a>
             <% if (isLoggedIn) { %>
             <a href="#" onclick="ban('<%= reply.ip %>');">ban</a>
