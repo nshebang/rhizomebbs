@@ -7,6 +7,8 @@
   "scripts": {
     "start": "pm2 start ./ecosystem.config.cjs --env production",
     "devStart": "nodemon src/index.js",
+    "genSecretKey": "openssl rand -hex 64",
+    "genAdminSecret": "node scripts/gentotpsecret.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "shebang",
@@ -21,8 +23,10 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "nconf": "^0.12.1",
+    "qrcode": "^1.5.3",
     "quick.db": "^9.1.7",
     "serve-favicon": "^2.5.0",
+    "speakeasy": "^2.0.0",
     "youtube-dl-exec": "^2.5.7"
   },
   "devDependencies": {

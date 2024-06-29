@@ -15,7 +15,10 @@
     "Ayashii": "ayashii.css"
   },
   "staff": {
-    "admin": "password"
+    "admin": {
+      "password": "password",
+      "secret": "O5ITG62LPNQS6UKQJNCSI5ZILU4EOQTE"
+    }
   },
   "secretKey": "985b734cba9d0b8e1691e5fdc4f4b35a243e0fd98b6dad598cb2b00701e7897e516be8ccc1b4a8825b485d011683ffdcfd8beefd44d7a259cb4cae301f9f960d",
   "boards": {

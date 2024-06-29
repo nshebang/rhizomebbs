@@ -10,6 +10,7 @@ import nconf from 'nconf';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import ytdl from 'youtube-dl-exec';
+import speakeasy from 'speakeasy';
 
 import { QuickDB } from 'quick.db';
 import { DiceRoller } from '@dice-roller/rpg-dice-roller';
@@ -108,8 +109,9 @@ app.post('/admin/login', (req, res) => {
   if (formData.password)
     return res.status(404).render('not-found');
   
-  const username = formData.name;
-  const password = formData.signum;
+  const username = formData.name ?? '';
+  const password = formData.signum ?? '';
+  const totp = formData.totp ?? '';
   
   let originIp = req.socket.remoteAddress;
   if (req.headers['x-forwarded-for'])
@@ -117,9 +119,24 @@ app.post('/admin/login', (req, res) => {
   
   console.log(`Admin login attempt from ${originIp} (username=${username})`);
   
-  if (password !== adminUsers[username] || req.isLoggedIn)
+  if (!adminUsers[username] ||
+      password !== adminUsers[username].password ||
+      !totp.trim().length ||
+      req.isLoggedIn)
     return res.redirect('/admin');
   
+  const verified = speakeasy.totp.verify({
+    secret: adminUsers[username].secret,
+    encoding: 'base32',
+    token: totp,
+    window: 1,
+  });
+  
+  if (!verified) {
+    console.log(`Admin TOTP verification failed (password was correct, username=${username})`);
+    return res.redirect('/admin');
+  }
+
   console.log(`Successful admin login from ${originIp} (username=${username})`);
   const user = { name: username };
   const accessToken = jwt.sign(user, secretKey, { expiresIn: '2h' });

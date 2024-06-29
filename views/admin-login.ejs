@@ -17,8 +17,9 @@
 </head>
 <body>
   <form action="/admin/login" method="post">
-    <input type="text" name="name" length="30" placeholder="Username"><br>
-    <input type="password" name="signum" length="30"><br>
+    <input type="text" name="name" placeholder="Username"><br>
+    <input type="password" name="signum"><br>
+    <input type="text" name="totp" placeholder="TOTP"><br>
     <input type="submit" value="Submit">
     <div style="display: none;">
       <input type="password" name="password">
