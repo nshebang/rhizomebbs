@@ -30,6 +30,15 @@ h3 {
   margin: 0px 10px 10px;
 }
 
+p {
+  margin-top: 8px;
+}
+
+.motd {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
 .index {
   background-color: #324742;
   border: 2px dotted white;

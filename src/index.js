@@ -39,6 +39,7 @@ const boards = nconf.get('boards');
 const adminUsers = nconf.get('staff');
 const secretKey = nconf.get('secretKey');
 const styles = nconf.get('styles');
+const motd = nconf.get('motd');
 const replyCooldown = nconf.get('replyCooldown');
 const threadCooldown = nconf.get('threadCooldown');
 
@@ -93,6 +94,7 @@ app.get('/', async (req, res) => {
     blotterPosts,
     isLoggedIn: req.isLoggedIn,
     username,
+    motd
   });
 });
 
