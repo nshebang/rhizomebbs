@@ -45,7 +45,7 @@ h2 a:hover {
 
 hr {
   border: none;
-  border-bottom: 1px dotted white;
+  border-bottom: 1px solid white;
 }
 
 header {
@@ -218,6 +218,11 @@ input[type="submit"] {
   color: #eee;
   border: 1px solid black;
   background-color: #0f0f0f;
+  transition: .2s;
+}
+
+input[type="submit"]:hover {
+  background-color: #0e0e0e;
 }
 
 input[type="submit"]:focus {
@@ -264,7 +269,7 @@ input[type="submit"]:focus {
   border: 1px dotted white;
   color: white;
   background-color: #0f1214;
-  max-width: 300px;
+  max-width: 600px;
 }
 
 #floatingReply img {

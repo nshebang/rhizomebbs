@@ -49,6 +49,9 @@ h2 a:hover {
 
 nav {
   text-align: left;
+  padding: 4px;
+  background-color: #CCFFCC;
+  border-bottom: 2px solid gray;
 }
 
 header {
@@ -259,7 +262,7 @@ input[type="submit"] {
   border: 4px double gray;
   color: black;
   background-color: #EFEFEF;
-  max-width: 300px;
+  max-width: 600px;
 }
 
 #floatingReply img {

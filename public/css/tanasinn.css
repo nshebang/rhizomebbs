@@ -46,7 +46,7 @@ h2 a:hover {
 
 nav {
   padding: 2px;
-  border: 1px outset #999;
+  border: 2px dotted black;
   background-color: #222;
   text-align: left;
 }
@@ -56,11 +56,11 @@ header {
 }
 
 nav a:link, nav a:visited {
-  color: #eb1313;
+  color: #ff1616;
 }
 
 a:link, a:visited {
-  color: #eb1313;
+  color: #ff1616;
 }
 
 nav a:hover, a:hover {
@@ -79,7 +79,7 @@ img {
 
 .box {
   margin-top: 10px;
-  border: 2px outset #999;
+  border: 2px dotted black;
   background-color: #222;
   color: #999;
   padding: 10px;
@@ -172,7 +172,7 @@ img {
 }
 
 .threadlist th, .threadlist td {
-  border: 2px outset #999;
+  border: 2px dotted black;
   padding: 5px;
 }
 
@@ -207,6 +207,7 @@ footer {
 input[type="text"], textarea {
   max-width: 100%;
   background-color: black;
+  border: none;
   color: #eee;
   font-size: 12pt;
   font-family: Arial, Helvetica, sans-serif;
@@ -215,7 +216,25 @@ input[type="text"], textarea {
 input[type="submit"] {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 11pt;
+  margin-top: 2px;
   background-color: black;
+  border-left: 1px solid gray;
+  border-top: 1px solid gray;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  transition: .2s;
+}
+
+input[type="submit"]:hover {
+  background-color: #0a0a0a;
+  border-right: 1px solid #0a0a0a;
+  border-bottom: 1px solid #0a0a0a; 
+}
+
+input[type="submit"]:focus {
+  background-color: black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black; 
 }
 
 .youtube {
@@ -256,10 +275,10 @@ input[type="submit"] {
   position: absolute;
   margin: 0;
   padding: 10px;
-  border: 2px outset #999;
+  border: 2px dotted black;
   color: #999;
   background-color: #222;
-  max-width: 300px;
+  max-width: 600px;
 }
 
 #floatingReply img {

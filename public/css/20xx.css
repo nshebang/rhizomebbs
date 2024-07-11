@@ -65,6 +65,7 @@ nav {
   background-color: lightgray;
   border: 1px solid darkblue;
   margin-bottom: 5px;
+  padding: 2px;
 }
 
 nav a:hover, a:hover {
@@ -219,13 +220,23 @@ input[type="text"], textarea {
   max-width: 100%;
   font-size: 12pt;
   font-family: Arial, Helvetica, sans-serif;
+  background: white;
+  border: 3px double black;
 }
 
 input[type="submit"] {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 11pt;
-  background-color: #aaa;
+  margin-top: 2px;
+  cursor: pointer;
+  background-color: white;
   color: black;
+  border: 1px solid black;
+  transition: .2s;
+}
+
+input[type="submit"]:hover {
+  background-color: #ddd;
 }
 
 .youtube {
@@ -269,7 +280,7 @@ input[type="submit"] {
   color: black;
   border: 1px solid darkblue;
   background-color: lightgray;
-  max-width: 300px;
+  max-width: 600px;
 }
 
 #floatingReply img {

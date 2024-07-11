@@ -50,6 +50,10 @@ h2 a:hover {
 
 nav {
   text-align: left;
+  background-color: #F0E0D6;
+  border-left: 8px solid #EEAA88;
+  border-right: 8px solid #EEAA88;
+  padding: 4px;
 }
 
 header {
@@ -76,10 +80,16 @@ img {
 
 .box {
   margin-top: 5px;
-  border: 8px solid #EEAA88;
   background-color: #F0E0D6;
   color: #800000;
   padding: 10px;
+  border-left: 8px solid #EEAA88;
+  border-right: 8px solid #EEAA88;
+}
+
+hr {
+  border: none;
+  border-bottom: 1px solid #880000;
 }
 
 .post {
@@ -253,7 +263,7 @@ input[type="submit"] {
   border: 8px solid #EEAA88;
   color: #800000;
   background-color: #F0E0D6;
-  max-width: 300px;
+  max-width: 600px;
 }
 
 #floatingReply img {

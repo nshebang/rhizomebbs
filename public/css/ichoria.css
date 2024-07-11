@@ -8,7 +8,7 @@ body {
   margin: auto;
   background-color: #2c2b37;
   background-image: radial-gradient(circle, #f9f0c220 1px, transparent 1px);
-  background-size: 20px 20px;
+  background-size: 80px 80px;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -41,23 +41,20 @@ h2, h3 {
   float: right;
 }
 
-nav {
-  text-align: left;
-}
-
 header {
   text-align: center;
 }
 
 nav {
-  background-color: #cce;
+  text-align: left;
+  background-color: #9b9bd5;
   border-bottom: 1px solid black;
   color: #222;
   padding: 2px;
 }
 
 nav a:link, nav a:visited {
-  color: #32a;
+  color: #1f1662;
 }
 
 a:link, a:visited {
@@ -302,14 +299,25 @@ input[type="submit"]:focus {
   position: absolute;
   margin: 0;
   padding: 10px;
-  border: 1px solid #ccc;
   color: black;
   background-color: #a4a4c8;
-  max-width: 300px;
+  border-top: 1px solid lightgray;
+  border-left: 1px solid lightgray;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  max-width: 600px;
 }
 
 #floatingReply img {
   max-width: 50%;
+}
+
+#floatingReply a:link, #floatingReply a:visited {
+  color: #32a;
+}
+
+#floatingReply a:hover {
+  color: #32a;
 }
 
 @media (max-width: 767px) {

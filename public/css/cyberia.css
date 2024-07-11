@@ -87,12 +87,12 @@ img {
 }
 
 .box {
-  margin-top: 10px;
+  margin-top: 16px;
+  margin-bottom: 16px;
   background-color: black;
-  box-shadow: 0 0 2px 2px #d2738a;
+  box-shadow: 0 0 5px 5px #c4768b55;
   color: white;
   padding: 10px;
-  border-bottom: 2px solid #555;
 }
 
 .post {
@@ -287,7 +287,7 @@ input[type="submit"]:hover {
   color: white;
   box-shadow: 0 0 2px 2px #d2738a;
   background-color: black;
-  max-width: 300px;
+  max-width: 600px;
 }
 
 #floatingReply img {
