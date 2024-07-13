@@ -67,7 +67,11 @@
     </article>
   </main>
   <footer>
-    <hr><% if (isLoggedIn) { %><a href="/admin/logout"><b>logout</b></a><br><% } %>
+    <hr>
+    <a href="/rss" target="_blank" style="float: left;">
+      <img src="/img/rss-icon.png" alt="RSS">
+    </a>
+    <% if (isLoggedIn) { %><a href="/admin/logout"><b>logout</b></a><br><% } -%>
     - rhizomebbs <%= VERSION %> -
   </footer>
   <script type="text/javascript" src="/js/styles.js"></script>
