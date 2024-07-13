@@ -69,7 +69,13 @@ function updateThreadReplies(data) {
         <span class="name">${fakeName}</span>
         <span class="date">${new Date(r.timestamp).toLocaleString('es', { timeZone: 'UTC' })} UTC</span>
         ${r.userId ? `<span class="uid">ID:${r.userId}</span>` : ''}
+        <span class="post-controls">
+          <a href="/delete?board=${r.board}&thread=${r.parent}&number=${number}"
+            rel="nofollow"
+            onclick="if (!confirm('¿Eliminar post no. ${number}?')) return false;">del</a>
+        </span>
       `;
+      h4El.classList.add('metadata');
 
       const blockquoteEl = document.createElement('blockquote');
       blockquoteEl.className = postType;
