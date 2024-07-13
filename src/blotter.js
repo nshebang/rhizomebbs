@@ -3,20 +3,22 @@ export class Blotter {
     this.db = db;
   }
 
-  async addBlotterPost(post) {
-    let blotter = await this.db.get('blotter') ?? [];
-    blotter.push(post);
-    await this.db.set('blotter', blotter);
+  addBlotterPost(post) {
+    this.db
+      .prepare(`INSERT INTO blotter (timestamp, author, content)
+        VALUES (?, ?, ?)`)
+      .run(post.timestamp, post.author, post.content);
   }
 
-  async getAllBlotterPosts() {
-    const blotter = await this.db.get('blotter') ?? [];
-    return [ ...blotter ].sort((a, b) => b.timestamp - a.timestamp);
+  getAllBlotterPosts() {
+    return this.db
+      .prepare(`SELECT * FROM blotter ORDER BY timestamp DESC`)
+      .all();
   }
 
-  async deleteBlotterPost(id) {
-    const posts = await this.db.get('blotter') ?? [];
-    const newPosts = [...posts].filter(p => p.timestamp !== id);
-    await this.db.set('blotter', newPosts);
+  deleteBlotterPost(id) {
+    this.db
+      .prepare(`DELETE FROM blotter WHERE timestamp=?`)
+      .run(id);
   }
 }

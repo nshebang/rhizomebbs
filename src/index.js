@@ -2,17 +2,15 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import favicon from 'serve-favicon';
-
 import jwt from 'jsonwebtoken';
 const { sign, verify } = jwt;
-
+import fs from 'fs';
+import path from 'path';
 import nconf from 'nconf';
 import { fileURLToPath } from 'url';
-import path from 'path';
 import ytdl from 'youtube-dl-exec';
 import speakeasy from 'speakeasy';
-
-import { QuickDB } from 'quick.db';
+import Database from 'better-sqlite3';
 import { DiceRoller } from '@dice-roller/rpg-dice-roller';
 import { lookup } from 'dnsbl';
 
@@ -25,7 +23,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const VERSION = '1.2.2';
 const app = express();
-const db = new QuickDB();
+const db = new Database(path.join(__dirname, '../bbs.sqlite3'), { verbose: console.log });
 const postMngr = new PostManager(db);
 const banMngr = new BanManager(db);
 const blotter = new Blotter(db);
@@ -43,9 +41,21 @@ const motd = nconf.get('motd');
 const replyCooldown = nconf.get('replyCooldown');
 const threadCooldown = nconf.get('threadCooldown');
 
-const postTimestamps = {};
+console.log('Initializing database');
+const schemaPath = path.join(__dirname, '../schema.sql');
+const migration = fs.readFileSync(schemaPath, 'utf8');
+db.pragma('journal_mode = WAL');
+db.exec(migration);
+process.on('exit', () => {
+  console.log('Shutting down');
+  db.close();
+});
+process.on('SIGHUP', () => process.exit(128 + 1));
+process.on('SIGINT', () => process.exit(128 + 2));
+process.on('SIGTERM', () => process.exit(128 + 15));
 
 console.log('Preparing server');
+const postTimestamps = {};
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '..', 'views'));
 
@@ -81,9 +91,9 @@ app.use((req, res, next) => {
   });
 });
 
-app.get('/', async (req, res) => {
-  const latestPosts = await postMngr.getLastGlobalPosts(Object.keys(boards));
-  const blotterPosts = await blotter.getAllBlotterPosts();
+app.get('/', (req, res) => {
+  const latestPosts = postMngr.getLastNGlobalPosts();
+  const blotterPosts = blotter.getAllBlotterPosts();
   const username = req.user? (req.user.name ?? '') : '';
   res.render('index', {
     VERSION,
@@ -158,7 +168,7 @@ app.get('/admin/logout', (req, res) => {
   res.redirect('/');
 });
 
-app.post('/admin/blotter/new', async (req, res) => {
+app.post('/admin/blotter/new', (req, res) => {
   if (!req.isLoggedIn)
   return res.status(404).render('not-found');
   
@@ -174,20 +184,20 @@ app.post('/admin/blotter/new', async (req, res) => {
   
   const post = {
     timestamp: Date.now(),
-    username: formData.username,
+    author: formData.username ?? 'Admin',
     content: formData.content.replace(/\n/g, '<br>')
   };
-  await blotter.addBlotterPost(post);
+  blotter.addBlotterPost(post);
   result.msg = 'Post añadido al blotter.';
   res.render('submit', { result });
 });
 
-app.get('/admin/blotter/delete', async (req, res) => {
+app.get('/admin/blotter/delete', (req, res) => {
   if (!req.isLoggedIn)
     return res.status(404).render('not-found');
   
   const timestamp = parseInt(req.query.id ?? 0);
-  await blotter.deleteBlotterPost(timestamp);
+  blotter.deleteBlotterPost(timestamp);
   const result = {
     msg: 'Post removido del blotter.',
     refresh: '2',
@@ -196,7 +206,7 @@ app.get('/admin/blotter/delete', async (req, res) => {
   res.render('submit', { result });
 });
 
-app.get('/admin/ban', async (req, res) => {
+app.get('/admin/ban', (req, res) => {
   if (!req.isLoggedIn)
     return res.status(404).render('not-found');
   const ip = req.query.ip ?? '';
@@ -215,7 +225,7 @@ app.get('/admin/ban', async (req, res) => {
     expires: banLength? now + banLength : 0,
     author: author,
   };
-  await banMngr.addBan(ban);
+  banMngr.addBan(ban);
   
   console.log(`New ban applied by ${author} to ${ip} (reason=${reason})`);
   const result = {
@@ -226,7 +236,7 @@ app.get('/admin/ban', async (req, res) => {
   res.render('submit', { result });
 });
 
-app.get('/admin/unban', async (req, res) => {
+app.get('/admin/unban', (req, res) => {
   if (!req.isLoggedIn)
     return res.status(404).render('not-found');
   const ip = req.query.ip ?? '';
@@ -236,15 +246,15 @@ app.get('/admin/unban', async (req, res) => {
     url: `${siteUrl}`,
   };
   
-  const ban = await banMngr.getBan(ip);
+  const ban = banMngr.getBan(ip);
   if (!ban) 
     return res.render('submit', { result });
-  await banMngr.deleteBan(ip);
+  banMngr.deleteBan(ip);
   result.msg = 'Se eliminó el baneo a la IP especificada.';
   res.render('submit', { result });
 });
 
-app.get('/admin/nuke', async (req, res) => {
+app.get('/admin/nuke', (req, res) => {
   if (!req.isLoggedIn)
     return res.status(404).render('not-found');
   const ip = req.query.ip ?? '';
@@ -263,11 +273,11 @@ app.get('/admin/nuke', async (req, res) => {
     expires: banLength? now + banLength : 0,
     author: author,
   };
-  await banMngr.addBan(ban);
+  banMngr.addBan(ban);
   
   const boardNames = Object.keys(boards);
   for (const boardName of boardNames) {
-    await postMngr.deletePostsByIp(boardName, ip);
+    postMngr.deletePostsByIp(boardName, ip);
   }
   
   const result = {
@@ -278,7 +288,7 @@ app.get('/admin/nuke', async (req, res) => {
   res.render('submit', { result });
 });
 
-app.get('/admin/close', async (req, res) => {
+app.get('/admin/close', (req, res) => {
   if (!req.isLoggedIn)
     return res.status(404).render('not-found');
   const boardName = req.query.board ?? '';
@@ -289,21 +299,21 @@ app.get('/admin/close', async (req, res) => {
     refresh: '2',
     url: `${siteUrl}/${boardName}`,
   };
-  const thread = await postMngr.getThread(boardName, parseInt(threadId));
+  const thread = postMngr.getThread(boardName, parseInt(threadId));
   if (!thread)
     return res.render('submit', { result });
   
-  await postMngr.closeThread(boardName, parseInt(threadId));
+  postMngr.closeThread(boardName, parseInt(threadId));
   result.msg = 'Hilo cerrado exitosamente.';
   res.render('submit', { result });
 });
 
-app.get('/delete', async (req, res) => {
+app.get('/delete', (req, res) => {
   const boardName = req.query.board ?? '';
   const threadId = req.query.thread ?? '';
   const postNumber = req.query.number ?? '';
   
-  const post = await postMngr.getPostByIds(
+  const post = postMngr.getPostByIds(
     boardName,
     parseInt(threadId),
     parseInt(postNumber)
@@ -324,7 +334,7 @@ app.get('/delete', async (req, res) => {
   if (post.ip !== originIp && !req.isLoggedIn)
     return res.render('submit', { result });
   
-  await postMngr.deletePost(
+  postMngr.deletePost(
     boardName,
     parseInt(threadId),
     parseInt(postNumber) - 1
@@ -338,14 +348,14 @@ app.get('/:board', async (req, res) => {
   
   if (boards[boardName]) {
     const board = boards[boardName];
-    const mainThreadList = await postMngr.getLastNThreads(boardName, 30);
-    const rawThreads = await postMngr.getLastNThreads(boardName, 10);
+    const mainThreadList = postMngr.getLastNThreads(boardName, 30);
+    const rawThreads = postMngr.getLastNThreads(boardName, 10);
     
     const file = req.query.file ?? '';
     const parent = req.query.parent ?? '';
     
-    const threadPromises = rawThreads.map(async t => {
-      const lastReplies = await postMngr.getLastNReplies(boardName, t.timestamp, 4);
+    const threadPromises = rawThreads.map(t => {
+      const lastReplies = postMngr.getLastNReplies(boardName, t.timestamp, 4);
       return Object.assign(t, { replies: lastReplies });
     });
     
@@ -368,10 +378,10 @@ app.get('/:board', async (req, res) => {
   }
 });
 
-app.get('/:board/threads/:threadId', async (req, res) => {
+app.get('/:board/threads/:threadId', (req, res) => {
   const boardName = req.params['board'];
   const threadId = req.params['threadId'];
-  const baseThread = await postMngr.getThread(boardName, threadId);
+  const baseThread = postMngr.getThread(boardName, threadId);
   
   if (boards[boardName] && baseThread) {
     const board = boards[boardName];
@@ -379,7 +389,7 @@ app.get('/:board/threads/:threadId', async (req, res) => {
     const file = req.query.file ?? '';
     const parent = req.query.parent ?? '';
     
-    const replies = await postMngr.getAllReplies(boardName, baseThread.timestamp);
+    const replies = postMngr.getAllReplies(boardName, baseThread.timestamp);
     const thread = Object.assign(baseThread, { replies: replies });
     
     res.render('thread', {
@@ -398,12 +408,12 @@ app.get('/:board/threads/:threadId', async (req, res) => {
   }
 });
 
-app.get('/:board/list', async (req, res) => {
+app.get('/:board/list', (req, res) => {
   const boardName = req.params['board'];
   
   if (boards[boardName]) {
     const board = boards[boardName];
-    const threads = await postMngr.getThreadsByBumpOrder(boardName);
+    const threads = postMngr.getThreadsByBumpOrder(boardName);
     
     res.render('list', {
       VERSION,
@@ -442,21 +452,21 @@ app.get('/:board/paint', (req, res) => {
   }
 });
 
-app.get('/api/threads', async (req, res) => {
+app.get('/api/threads', (req, res) => {
   const boardName = req.query.board ?? '';
   const threadId = req.query.thread ?? '';
   
-  const rawReplies = await postMngr.getAllReplies(boardName, parseInt(threadId));
+  const rawReplies = postMngr.getAllReplies(boardName, parseInt(threadId));
   const replies = rawReplies.map(({ ip, ...rest }) => rest);
   res.json({ replies });
 });
 
-app.get('/api/post', async (req, res) => {
+app.get('/api/post', (req, res) => {
   const boardName = req.query.board ?? '';
   const threadId = req.query.thread ?? '';
   const postNumber = req.query.number ?? '';
   
-  const rawPost = await postMngr.getPostByIds(
+  const rawPost = postMngr.getPostByIds(
     boardName,
     parseInt(threadId),
     parseInt(postNumber)
@@ -478,10 +488,10 @@ app.post('/submit', async (req, res) => {
   if (!formData.board)
     return res.status(302).send({ redirectTo: '/' });
   
-  const ban = await banMngr.getBan(originIp);
+  const ban = banMngr.getBan(originIp);
   if (ban) {
     if (ban.expires > 0 && Date.now() > ban.expires) {
-      await banMngr.deleteBan(originIp);
+      banMngr.deleteBan(originIp);
     } else {
       return res.render('banned', { ban });
     }
@@ -489,7 +499,7 @@ app.post('/submit', async (req, res) => {
   
   const board = formData.board ?? '';
   const parent = parseInt(formData.parent);
-  const thread = parent? await postMngr.getThread(board, parent) : null;
+  const thread = parent? postMngr.getThread(board, parent) : null;
   const timestamp = Date.now();
   const userTimestamps = postTimestamps[originIp] || {};
   const lastReplyTimestamp = userTimestamps[`${board}_reply`] || 0;
@@ -510,6 +520,8 @@ app.post('/submit', async (req, res) => {
   'Esto no es un baneo, para mayor información contacta a admin@ichoria.org' :
   thread && thread.closed ?
   'Este hilo ha sido cerrado y ya no es posible responder.' :
+  !thread && parent > 0 ?
+  'El hilo al que intentas responder no existe.' :
   parent === 0 && (timestamp - lastThreadTimestamp) < threadCooldown ?
   'Debes esperar más tiempo para volver a abrir un hilo.' :
   parent !== 0 && (timestamp - lastReplyTimestamp) < replyCooldown ?
@@ -661,7 +673,7 @@ const post = {
   title: formData.titulus ?? '',
   content: content,
 };
-await postMngr.addPost(board, post);
+postMngr.addPost(board, post);
 
 const thanksMsgs = [
   'Eres una buena persona.',

@@ -3,21 +3,22 @@ export class BanManager {
     this.db = db;
   }
 
-  async addBan(ban) {
-    let bans = await this.db.get('bans') ?? [];
-    bans.push(ban);
-    await this.db.set('bans', bans);
+  addBan(ban) {
+    this.db
+      .prepare(`INSERT INTO bans (ip, reason, timestamp, expires, author)
+        VALUES (?, ?, ?, ?, ?)`)
+      .run(ban.ip, ban.reason, ban.timestamp, ban.expires, ban.author);
   }
 
-  async getBan(ip) {
-    const bans = await this.db.get('bans') ?? [];
-    const result = bans.filter(b => b.ip === ip);
-    return result.length > 0? result[0] : null;
+  getBan(ip) {
+    return this.db
+      .prepare(`SELECT * FROM bans WHERE ip=?`)
+      .get(ip);
   }
 
-  async deleteBan(ip) {
-    const bans = await this.db.get('bans') ?? [];
-    const newBans = [...bans].filter(b => b.ip !== ip);
-    await this.db.set('bans', newBans);
+  deleteBan(ip) {
+    this.db
+      .prepare(`DELETE FROM bans WHERE ip=?`)
+      .run(ip);
   }
 }

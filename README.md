@@ -1,5 +1,5 @@
 # rhizomebbs
-rhizomebbs is a simplistic BBS/textboard engine for the Spanish-speaking forum
+rhizomebbs is the textboard engine made for the Spanish-speaking forum
 [IchoriaBBS](https://bbs.ichoria.org). Please note that this textboard engine
 is project-specific, and not project-agnostic or a general purpose engine.
 You may need to fork this software in case you want to use it for your own
@@ -23,7 +23,9 @@ You need to install the following software packages:
 * pm2 (installed globally from npm)
 * (optional) nginx
 
-The database is managed by a simple NodeJS SQLite library.
+The database is managed by a simple NodeJS SQLite3 library, and the migration
+will be executed automatically the first time you run the software, so you
+don't need to install any additional database packages or do any extra actions.
 
 ## Installation
 1. Clone the repo: `git clone https://github.com/nshebang/rhizomebbs`
@@ -126,25 +128,22 @@ use the one-time password it'll generate for them to log in to their account.
 Example configuration file for /etc/nginx/sites-available/bbs:
 ```
 server {
-	listen 80;
-	listen [::]:80;
+  listen 80;
+  listen [::]:80;
 	
-	listen 443 ssl;
-	listen [::]:443 ssl;
+  listen 443 ssl;
+  listen [::]:443 ssl;
 	
-	server_name example.tld;
+  server_name example.tld;
 	
-	ssl_certificate /etc/letsencrypt/live/example.tld/cert.pem;
-	ssl_certificate_key /etc/letsencrypt/live/example.tld/privkey.pem;
+  ssl_certificate /etc/letsencrypt/live/example.tld/cert.pem;
+  ssl_certificate_key /etc/letsencrypt/live/example.tld/privkey.pem;
 
-	location / {
-		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  location / {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $host;
     proxy_pass http://127.0.0.1:BBS_PORT;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection "upgrade";
-	}
+  }
 }
 ```
 

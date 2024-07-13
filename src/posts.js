@@ -5,135 +5,163 @@ export class PostManager {
     this.db = db;
   }
 
-  async addPost(board, post) {
-    let posts = await this.db.get(board) ?? [];
-    let replyNumber = 0;
-    let enableIds = post.parent === 0 && post.enableIds;
-    let threadIdentifier = post.parent === 0? post.timestamp : 0;
-
+  addPost(board, post) {
     if (post.parent !== 0) {
-      posts.forEach(t => {
-        if (t.parent === 0 && t.timestamp === post.parent) {
-          if (!post.sage)
-            t.lastBump = post.timestamp;
-          t.lastReply = post.timestamp;
-          replyNumber = ++t.replyCount;
-          t.closed = (replyNumber >= 999);
-          enableIds = t.enableIds;
-          threadIdentifier = t.timestamp;
-        }
-      });
+      let pthread = this.getThread(board, post.parent);
+      if (pthread) {
+        if (!post.sage)
+          pthread.lastBump = post.timestamp;
+        pthread.lastReply = post.timestamp;
+        pthread.replyCount++;
+        pthread.closed = (pthread.replyCount >= 999);
+  
+        this.db
+          .prepare(`UPDATE posts
+            SET lastBump=?, lastReply=?, closed=?, replyCount=?
+            WHERE id=?`)
+          .run(
+            pthread.lastBump,
+            pthread.lastReply,
+            pthread.closed ? 1 : 0,
+            pthread.replyCount,
+            pthread.id
+          );
+      }
     } else {
-      const threads = posts.filter(thread => thread.parent === 0);
-      const nonThreads = posts.filter(thread => thread.parent !== 0);
+      let threads = this.getThreads(board);
       if (threads.length >= 499) {
-        threads.sort((a, b) => b.timestamp - a.timestamp);
-        threads.splice(499);
-        posts = [...threads, ...nonThreads];
+        threads.sort((a, b) => b.lastBump - a.lastBump);
+        const threadsToDelete = threads.slice(499);
+        threadsToDelete.forEach(thread => {
+          this.deletePost(board, thread.timestamp);
+        });
       }
     }
-    
-    if (replyNumber)
-      post.number = replyNumber;
-    if (enableIds)
+
+    let enableIds = false;
+
+    if (post.parent !== 0) {
+      const pthread = this.getThread(board, post.parent);
+      post.number = pthread.replyCount;
+      enableIds = pthread.enableIds;
+    } else {
+      enableIds = post.enableIds;
+    }
+
+    if (enableIds) {
+      const threadIdentifier = post.parent === 0 ? `${post.timestamp}` : `${post.parent}`;
       post.userId = crypto.createHash('md5')
         .update(post.ip + threadIdentifier)
         .digest('hex')
         .slice(-8);
-    posts.push(post);
-    await this.db.set(board, posts);
-  }
-
-  async deletePost(board, threadId, number = 0) {
-    let posts = await this.db.get(board) ?? [];
-    if (!number)
-      posts = posts.filter(p => p.timestamp !== threadId && p.parent !== threadId);
-    else
-      posts = posts.filter(p => !(p.parent === threadId && p.number === number));  
-
-    await this.db.set(board, posts);
-  }
-
-  async deletePostsByIp(board, ip) {
-    let posts = await this.db.get(board) ?? [];
-    posts = posts.filter(p => p.ip !== ip);  
-    await this.db.set(board, posts);
-  }
-
-  async getLastGlobalPosts(boards) {
-    let posts = [];
-    for(let i = 0; i < boards.length; i++) {
-      const boardPosts = await this.db.get(boards[i]) ?? [];
-      const postsWithBoard = boardPosts
-        .sort((a, b) => b.timestamp - a.timestamp)
-        .slice(0, 10)
-        .map(post => ({ ...post, board: boards[i] }));
-      posts = [...posts, ...postsWithBoard];
     }
-    return [...posts]
-      .sort((a, b) => b.timestamp - a.timestamp)
-      .slice(0, 10);
+
+    this.db
+      .prepare(`INSERT INTO posts (board, timestamp, number,
+        userId, lastBump, lastReply, sage, capcode, enableIds, closed,
+        replyCount, ip, parent, title, content)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+      .run(
+        board,
+        post.timestamp,
+        post.number || 0,
+        post.userId || '',
+        post.lastBump || 0,
+        post.lastReply || 0,
+        post.sage ? 1 : 0,
+        post.capcode ? 1 : 0,
+        post.enableIds ? 1 : 0,
+        post.closed ? 1 : 0,
+        post.replyCount || 0,
+        post.ip || '',
+        post.parent || 0,
+        post.title || '',
+        post.content || ''
+      );
   }
 
-  async getPosts(board, parent = 0) {
-    const posts = await this.db.get(board) ?? [];
-    return posts.filter(p => p.parent === parent);
+  deletePost(board, threadId, number = 0) {
+    if (!number) {
+      this.db
+        .prepare(`DELETE FROM posts WHERE board=? AND (timestamp=? OR parent=?)`)
+        .run(board, threadId, threadId);
+    } else {
+      this.db
+        .prepare(`DELETE FROM posts WHERE board=? AND parent=? AND number=?`)
+        .run(board, threadId, number);
+    }
   }
 
-  async getThreads(board) {
-    return await this.getPosts(board, 0);
+  deletePostsByIp(_board, ip) {
+    this.db
+      .prepare(`DELETE FROM posts WHERE ip=?`)
+      .run(ip);
   }
 
-  async getThreadsByBumpOrder(board) {
-    const threads = await this.getThreads(board);
+  getLastNGlobalPosts(limit = 10) {
+    return this.db
+      .prepare(`SELECT * FROM posts
+        ORDER BY timestamp DESC LIMIT ?`)
+      .all(limit);
+  }
+
+  getPosts(board, parent = 0) {
+    return this.db
+      .prepare(`SELECT * FROM posts WHERE board=? AND parent=?`)
+      .all(board, parent);
+  }
+
+  getThreads(board) {
+    return this.getPosts(board, 0);
+  }
+
+  getThreadsByBumpOrder(board) {
+    const threads = this.getThreads(board);
     return [...threads]
       .sort((a, b) => b.lastBump - a.lastBump);
   }
 
-  async getLastNThreads(board, n) {
-    const threads = await this.getThreads(board);
+  getLastNThreads(board, n) {
+    const threads = this.getThreads(board);
     return [...threads]
       .sort((a, b) => b.lastBump - a.lastBump)
       .slice(0, n);
   }
-  
-  async getLastNReplies(board, parent, n = 50) {
-    const replies = await this.getPosts(board, parent);
+
+  getLastNReplies(board, parent, n = 50) {
+    const replies = this.getPosts(board, parent);
     return [...replies]
       .sort((a, b) => b.timestamp - a.timestamp)
       .slice(0, n)
       .reverse();
   }
 
-  async getAllReplies(board, parent) {
-    const replies = await this.getPosts(board, parent);
+  getAllReplies(board, parent) {
+    const replies = this.getPosts(board, parent);
     return [...replies]
       .sort((a, b) => b.timestamp - a.timestamp)
       .reverse();
   }
 
-  async getThread(board, threadId) {
-    const posts = await this.getThreads(board);
-    const matchingPosts = posts.filter(p => p.timestamp === parseInt(threadId));
-    return posts.length > 0? (matchingPosts.length > 0? matchingPosts[0] : null) : null;
+  getThread(board, threadId) {
+    return this.db
+      .prepare(`SELECT * FROM posts WHERE board=? AND timestamp=? AND parent=0`)
+      .get(board, threadId);
   }
 
-  async closeThread(board, threadId) {
-    let posts = await this.db.get(board) ?? [];
-    posts.forEach(p => {
-      if (p.timestamp === parseInt(threadId) && !p.parent)
-        p.closed = true;
-    });
-    await this.db.set(board, posts);
+  closeThread(board, threadId) {
+    this.db
+      .prepare(`UPDATE posts
+        SET closed=1
+        WHERE board=? AND timestamp=? AND parent=0`)
+      .run(board, threadId);
   }
 
-  async getPostByIds(board, parent, number) {
-    const posts = number === 1?
-      [await this.getThread(board, parent)] :
-      await this.getPosts(board, parent);
-    const matchingPosts = number === 1?
-      [posts[0]] :
-      posts.filter(p => (p.number + 1) === number);
-    return posts.length > 0? (matchingPosts.length > 0? matchingPosts[0] : null) : null;
+  getPostByIds(board, threadId, number) {
+    if (number === 1)
+      return this.getThread(board, threadId);
+    return this.db
+      .prepare(`SELECT * FROM posts WHERE board=? AND parent=? AND number=?`)
+      .get(board, threadId, number - 1);
   }
 }
