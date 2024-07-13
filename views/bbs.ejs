@@ -257,6 +257,7 @@
       <img src="/img/rss-icon.png" alt="RSS">
     </a>
     <% if (isLoggedIn) { %><a href="/admin/logout"><b>logout</b></a><br><% } -%>
+    <%- `${ (Date.now() - startTimestamp) / 1000 }s<br>` %>
     - rhizomebbs <%= VERSION %> -
   </footer>
   <% if (isLoggedIn) { %><script type="text/javascript" src="/js/hammer.js" defer></script><% } %>

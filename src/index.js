@@ -355,7 +355,8 @@ app.get('/delete', (req, res) => {
 
 app.get('/:board', async (req, res) => {
   const boardName = req.params['board'];
-  
+  const startTimestamp = Date.now();
+
   if (boards[boardName]) {
     const board = boards[boardName];
     const mainThreadList = postMngr.getLastNThreads(boardName, 30);
@@ -381,7 +382,8 @@ app.get('/:board', async (req, res) => {
       mainThreadList,
       isLoggedIn: req.isLoggedIn,
       file,
-      parent
+      parent,
+      startTimestamp
     });
   } else {
     res.status(404).render('not-found');
@@ -392,7 +394,8 @@ app.get('/:board/threads/:threadId', (req, res) => {
   const boardName = req.params['board'];
   const threadId = req.params['threadId'];
   const baseThread = postMngr.getThread(boardName, threadId);
-  
+  const startTimestamp = Date.now();
+
   if (boards[boardName] && baseThread) {
     const board = boards[boardName];
     
@@ -411,7 +414,8 @@ app.get('/:board/threads/:threadId', (req, res) => {
       thread,
       isLoggedIn: req.isLoggedIn,
       file,
-      parent
+      parent,
+      startTimestamp
     });
   } else {
     res.status(404).render('not-found');
