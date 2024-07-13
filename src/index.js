@@ -18,6 +18,7 @@ import { PostManager } from './posts.js';
 import { BanManager } from './bans.js';
 import { Blotter } from './blotter.js';
 import { Utils } from './utils.js';
+import { RSSMngr } from './rss.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -27,6 +28,7 @@ const db = new Database(path.join(__dirname, '../bbs.sqlite3'));
 const postMngr = new PostManager(db);
 const banMngr = new BanManager(db);
 const blotter = new Blotter(db);
+const rss = new RSSMngr();
 const utils = new Utils();
 
 console.log('Loading configuration');
@@ -110,6 +112,14 @@ app.get('/', (req, res) => {
 
 app.get('/info', (req, res) => {
   res.render('info');
+});
+
+app.get('/rss', (req, res) => {
+  const posts = postMngr.getLastNGlobalPosts(50);
+  const feedXml = rss.generateFeed(siteUrl, posts);
+
+  res.setHeader('Content-Type', 'text/xml'); // force inline visualization
+  res.send(feedXml);
 });
 
 app.get('/admin', (req, res) => {

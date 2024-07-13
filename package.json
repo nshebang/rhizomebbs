@@ -25,6 +25,7 @@
     "jsonwebtoken": "^9.0.2",
     "nconf": "^0.12.1",
     "qrcode": "^1.5.3",
+    "rss": "^1.2.2",
     "serve-favicon": "^2.5.0",
     "speakeasy": "^2.0.0",
     "youtube-dl-exec": "^2.5.7"
