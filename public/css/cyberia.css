@@ -170,10 +170,12 @@ hr {
 .spoiler {
   background-color: #d2738a;
   color: #d2738a;
+  transition: .3s;
 }
 
 .spoiler:hover {
-  color: black;
+  background-color: transparent;
+  color: #fc8803;
 }
 
 .threadlist {

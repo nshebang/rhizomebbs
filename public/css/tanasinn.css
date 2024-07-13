@@ -156,10 +156,12 @@ img {
 .spoiler {
   background-color: black;
   color: black;
+  transition: .3s;
 }
 
 .spoiler:hover {
-  color: white;
+  background-color: transparent;
+  color: #999;
 }
 
 .threadlist {
