@@ -98,6 +98,15 @@ export class PostManager {
       .run(ip);
   }
 
+  globalSearch(sanitizedQuery) {
+    return this.db
+      .prepare(`SELECT *, bm25(posts_fts) AS rank
+        FROM posts_fts
+        WHERE posts_fts MATCH ?
+        ORDER BY rank DESC`)
+      .all(sanitizedQuery);
+  }
+
   getLastNGlobalPosts(limit = 10) {
     return this.db
       .prepare(`SELECT * FROM posts

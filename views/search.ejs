@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="pragma" content="no-cache">
+  <link rel="icon" type="image/gif" href="/img/favicon.gif">
+  <title>"<%= query %>" - Buscador de posts@Ichoria BBS</title>
+  <link rel="stylesheet" href="/css/search.css">
+</head>
+<body>
+  <header>
+    <a href="/">Volver a la portada</a>
+    <h1>Ichoria★BBS</h1>
+    <h4>Buscador</h4>
+  </header>
+  <main>
+    <form class="searchform" method="get" action="/search">
+      <input name="q" class="searchbar" type="text"
+        placeholder="Buscar por título, tablón o contenido..."
+        <% if (rawQuery) { -%>value="<%= rawQuery %>"<% } -%>>
+      <input type="submit" value="Buscar">
+    </form>
+    
+    <% if (errorMsg) { -%>
+      <%- errorMsg -%>  
+    <% } -%>
+
+    <% if (!results.length) { -%>
+      <%- '<div class="noresults">No se encontraron resultados</div>' -%>
+    <% } else { -%>
+      <%- `<div class="result-counter">
+            ${results.length > 1 ? 'Se encontraron' : 'Se encontró'}
+            ${results.length}
+            resultado${results.length > 1 ? 's' : ''} para "${rawQuery}":
+          </div>`
+      -%>
+    <% } -%>
+
+    <% results.forEach(result => {
+      const threadId = result.parent > 0 ? result.parent : result.timestamp
+      const markedTitle = result.title.replace(
+        new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'),
+        match => `<mark>${match}</mark>`
+      );
+      const markedContent = result.content
+      .replace(/<[^>]*>/g, '')
+      .replace(
+        new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'),
+        match => `<mark>${match}</mark>`
+      );
+    -%>
+    <div class="result">
+      <h3>★
+        <a href="/<%= result.board %>/threads/<%= threadId %>#p<%= result.number + 1 %>" target="_blank">
+          <%= result.board %>/<%= threadId %>#<%= result.number + 1%>
+        </a>
+      </h3>
+      <% if (result.parent === 0) -%><span class="title"><%- markedTitle -%></span><% -%>
+      <div class="result-content"><%- markedContent -%></div>
+    </div>
+    <% }); %>
+  </main>
+  <footer>
+    <hr>
+    <a href="/rss" target="_blank" style="float: left;">
+      <img src="/img/rss-icon.png" alt="RSS">
+    </a>
+    <p>
+      Los contenidos de la base de datos fts5 se actualizan en tiempo real al
+      crear o borrar posts.
+      <br>
+      Esta herramienta busca posts en todo el foro.
+    </p>
+    <% if (isLoggedIn) { %><a href="/admin/logout"><b>logout</b></a><br><% } -%>
+    <%- `${ (Date.now() - startTimestamp) / 1000 }s<br>` %>
+    - rhizomebbs <%= VERSION %> -
+  </footer>
+</body>
+</html>

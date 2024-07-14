@@ -1,0 +1,151 @@
+html {
+  color-scheme: dark;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  background-color: #2c2b37;
+  background-size: 20px 20px;
+  font-family: MS PGothic, Mona, Noto Sans Mono CJK JP, monospace;
+  color: white;
+}
+
+h1 {
+  text-align: center;
+  font-size: 28pt;
+  color: #42108c;
+  text-shadow:
+    2px 2px 0 #eee,
+    -2px 2px 0 #eee,
+    -2px -2px 0 #eee,
+    2px -2px 0 #eee;
+  margin-bottom: 4px;
+}
+
+h3 {
+  padding: 0;
+  margin-bottom: 7px;
+}
+
+h4 {
+  margin-top: 0;
+  padding-top: 0;
+  text-align: center;
+  color: #ff82e4;
+}
+
+.title {
+  margin-top: 0;
+  padding-top: 0;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 14pt;
+  color: #ff82e4;
+}
+
+.result {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding-top: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 15px;
+  background-color: #211f2f;
+}
+
+.result-content {
+  padding: 5px;
+  color: #bbb;
+  text-align: justify;
+}
+
+a:link, a:visited {
+  color: rgb(72, 151, 255);
+  transition: .2s;
+}
+
+a:hover {
+  color: #c885ff;
+}
+
+.searchform {
+  text-align: center;
+}
+
+.searchbar {
+  font-family: MS PGothic, Mona, Noto Sans Mono CJK JP, monospace;
+  font-size: 14pt;
+  width: 500px;
+  max-width: 90%;
+  height: 32px;
+}
+
+.error {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  text-align: center;
+  color: rgb(255, 15, 35);
+  font-weight: bold;
+}
+
+.noresults {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: lightgray;
+  font-size: 18pt;
+  text-align: center;
+}
+
+.result-counter {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  text-align: justify;
+
+}
+
+input[type="text"] {
+  background-color: #342f52;
+  border: none;
+  height: 38px;
+  border-left: 2px solid #b572fc;
+  padding: 4px;
+  transition: .2s;
+}
+
+input[type="text"]:hover {
+  background-color: #2f3952;
+  border-left: 2px solid #6363ff;
+}
+
+input[type="submit"] {
+  padding: 4px;
+  width: 80px;
+  height: 38px;
+  background-color: #342f52;
+  border: none;
+  border-top: 2px solid #b572fc;
+  border-left: 2px solid #b572fc;
+  border-bottom: 2px solid #3d1d52;
+  border-right: 2px solid #3d1d52;
+  border-radius: 2px;
+  font-size: 11pt;
+  transition: .2s;
+}
+
+input[type="submit"]:hover {
+  background-color: #2f3952;
+  border: none;
+  border-top: 2px solid #6363ff;
+  border-left: 2px solid #6363ff;
+  border-bottom: 2px solid #132236;
+  border-right: 2px solid #132236;
+  border-radius: 2px;
+}
+
+footer {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 9pt;
+}

@@ -114,6 +114,41 @@ app.get('/info', (req, res) => {
   res.render('info');
 });
 
+app.get('/search', (req, res) => {
+  let originIp = req.socket.remoteAddress;
+  if (req.headers['x-forwarded-for'])
+    originIp = req.headers['x-forwarded-for'].split(',')[0];
+
+  const rawQuery = req.query.q ?? '';
+  const query = rawQuery.replace(/[^a-zA-Z0-9]/g, ' ').trim();
+  const startTimestamp = Date.now();
+  let errorMsg = '';
+  let validQuery = true;
+  
+  if (rawQuery.trim())
+    console.log(`${originIp} searched for "${rawQuery}"`);
+
+  if (!query.length)
+    validQuery = false;
+  if (query.length && query.trim().length < 3) {
+    errorMsg = '<div class="error">Error: el término de búsqueda debe ' +
+      'contener al menos 3 caracteres válidos</div>';
+    validQuery = false;
+  }
+  
+  const results = validQuery ? postMngr.globalSearch(query) : [];
+
+  res.render('search', {
+    VERSION,
+    query,
+    rawQuery,
+    isLoggedIn: req.isLoggedIn,
+    startTimestamp,
+    errorMsg,
+    results
+  });
+});
+
 app.get('/rss', (req, res) => {
   const posts = postMngr.getLastNGlobalPosts(50);
   const feedXml = rss.generateFeed(siteUrl, posts);

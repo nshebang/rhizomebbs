@@ -21,6 +21,8 @@ body {
 }
 
 footer {
+  margin-top: 10px;
+  margin-bottom: 10px;
   text-align: center;
   font-size: 9pt;
 }
@@ -232,9 +234,4 @@ a:link, a:visited {
 
 .box a:hover, a:hover {
   color: #c00;
-}
-
-footer {
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
