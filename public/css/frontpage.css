@@ -127,6 +127,23 @@ img {
   overflow-x: auto;
 }
 
+.searchform {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.searchform tr td {
+  padding: 2px;
+}
+
+.searchform .searchth {
+  background-color: #241f30;
+  color: white;
+  border-bottom: 2px solid #222;
+}
+
 .postlist {
   width: 100%;
   border-collapse: collapse;
@@ -234,4 +251,42 @@ a:link, a:visited {
 
 .box a:hover, a:hover {
   color: #c00;
+}
+
+input[type="text"] {
+  max-width: 100%;
+  background-color: #1a1921;
+  color: #eee;
+  font-size: 10pt;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 2px;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+}
+
+input[type="submit"] {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10pt;
+  color: #eee;
+  padding-left: 4px;
+  padding-right: 4px;
+  background-color: #1a1921;
+  border-top: 1px solid lightgray;
+  border-left: 1px solid lightgray;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  transition: .1s;
+}
+
+input[type="submit"]:hover {
+  background-color: #2e2c3b;
+}
+
+input[type="submit"]:focus {
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
 }

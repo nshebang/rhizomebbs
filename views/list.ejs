@@ -17,6 +17,7 @@
       <a href="https://ichoria.org">ichoria</a>
       <a href="/">portada</a>
       <a href="/info">ayuda</a>
+      <a href="/search">buscar</a>
       <% boards.forEach(board => { %>
       <a href="/<%= board %>"><%= board %></a>
     <% }); %> ]</nav>
@@ -29,8 +30,14 @@
         <a href="/<%= boardName %>">Volver</a>
       </h4>
       <hr>
-      <h4>Buscar</h4>
-      <input id="searchbar" size="40" type="text" placeholder="Buscar por título...">
+      <h4>Búsqueda global</h4>
+      <form action="/search" method="get">
+        <input name="q" size="40" type="text" placeholder="Buscar en el BBS">
+        <input type="submit" value="Buscar">
+      </form>
+      <br>
+      <h4>Filtro simple</h4>
+      <input id="searchbar" size="40" type="text" placeholder="Filtrar por título...">
       <br><br>
       <div style="overflow-x: auto;" id="container">
       <table class="threadlist">

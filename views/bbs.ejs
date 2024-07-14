@@ -17,6 +17,7 @@
       <a href="https://ichoria.org">ichoria</a>
       <a href="/">portada</a>
       <a href="/info">ayuda</a>
+      <a href="/search">buscar</a>
       <% boards.forEach(board => { %>
       <a href="/<%= board %>"><%= board %></a>
     <% }); %> ]</nav>
@@ -50,6 +51,7 @@
       <a href="/<%= boardName %>/threads/<%= thread.timestamp %>"><b><%= i + 1%>.</b>
       <%= thread.title %></a>&nbsp;
       <% }); %>
+      <a href="/search"><b>Buscar hilo...</b></a>
       <hr>
       <h3 class="newthread">
         <a href="#postform">Abrir nuevo hilo</a> |

@@ -30,7 +30,7 @@ function useMainMobileNav() {
   });
 
   nav.style.textAlign = 'center';
-  nav.innerHTML = `<a href="/">portada</a> | <a href="/info">ayuda</a> | `;
+  nav.innerHTML = `<a href="/">Portada</a> | <a href="/info">Ayuda</a> | `;
   nav.appendChild(navSelect);
 }
 
@@ -39,9 +39,11 @@ function useThreadMobileNav() {
   const board = window.location.pathname.split('/')[1];
 
   nav.style.textAlign = 'center';
+  nav.style.fontSize = '10pt';
   nav.innerHTML = `<a href="/${board}">Volver</a> | 
   <a href="#postform"><b>Responder</b></a> |
   <a href="/info">Ayuda</a> |
+  <a href="/search">Buscar</a> |
   <a href="/${board}/list">Lista</a>`;
 }
 
