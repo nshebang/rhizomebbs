@@ -146,6 +146,24 @@ img {
   color: black;
 }
 
+.anchor {
+  background-color: transparent;
+}
+
+.anchor:target {
+  background-color: #002424;
+  animation: fadeOut 4s forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    background-color: #002424;
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
 .spoiler {
   background-color: black;
   color: black;

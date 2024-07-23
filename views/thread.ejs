@@ -26,7 +26,7 @@
   <main>
     <article class="box threadview">
       <h2><%= thread.title %></h2>
-      <a name="p1"></a>
+      <div id="p1" class="anchor">
       <h4 class="metadata">1. 
         <span class="name"><%= board.fakeName %></span>
         <% if (thread.capcode) { %><span class="capcode"> ## Admin </span><% } %>
@@ -49,9 +49,10 @@
       </h4>
       <blockquote class="<%= board.aa? 'aapost' : 'post' %>"><%- thread.content %>
       </blockquote>
+      </div>
 
       <% thread.replies.forEach(reply => { %>
-      <a name="p<%= reply.number + 1 %>"></a>
+      <div id="p<%= reply.number + 1 %>" class="anchor">
       <h4 class="metadata"><%= reply.number + 1 %>. 
         <span class="name"><%= board.fakeName %></span>
         <% if (reply.capcode) { %><span class="capcode"> ## Admin </span><% } %>
@@ -73,6 +74,7 @@
       </h4>
       <blockquote class="<%= board.aa? 'aapost' : 'post' %>"><%- reply.content %>
       </blockquote>
+      </div>
       <% }); %>
       
       <hr>

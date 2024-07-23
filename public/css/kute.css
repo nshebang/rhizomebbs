@@ -180,6 +180,24 @@ hr {
   color: #333;
 }
 
+.anchor {
+  background-color: transparent;
+}
+
+.anchor:target {
+  background-color: #fda5ee;
+  animation: fadeOut 6s forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    background-color: #fda5ee;
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
 .spoiler {
   background-color: #333;
   color: #333;

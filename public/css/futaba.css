@@ -159,6 +159,24 @@ hr {
   color: black;
 }
 
+.anchor {
+  background-color: transparent;
+}
+
+.anchor:target {
+  background-color: #EEAA88;
+  animation: fadeOut 4s forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    background-color: #EEAA88;
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
 .spoiler {
   background-color: black;
   color: black;

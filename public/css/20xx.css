@@ -164,6 +164,24 @@ hr {
   color: black;
 }
 
+.anchor {
+  background-color: transparent;
+}
+
+.anchor:target {
+  background-color: rgb(160, 160, 160);
+  animation: fadeOut 6s forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    background-color: rgb(160, 160, 160);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
 .spoiler {
   background-color: black;
   color: black;
