@@ -22,7 +22,7 @@ import { RSSMngr } from './rss.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const VERSION = '1.3.1';
+const VERSION = '1.3.2';
 const app = express();
 const db = new Database(path.join(__dirname, '../bbs.sqlite3'));
 const postMngr = new PostManager(db);
