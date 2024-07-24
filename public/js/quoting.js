@@ -8,6 +8,9 @@ function trackMouse(e) {
 document.addEventListener('mousemove', trackMouse);
 
 async function whoAmIQuoting(quoteEl) {
+  if (document.body.clientWidth < 767)
+    return;
+
   const target = getPostIds(quoteEl.href);
   if (!target.board || !target.threadId || !target.postId)
     return;

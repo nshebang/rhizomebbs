@@ -357,9 +357,14 @@ input[type="submit"]:focus {
   }
 
   .metadata {
-    margin-left: -10px;
-    margin-right: -10px;
     font-size: 9pt;
     background-color: #8a8ab0;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  .anchor {
+    margin-left: -10px;
+    margin-right: -10px;
   }
 }

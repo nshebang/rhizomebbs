@@ -317,4 +317,14 @@ input[type="submit"]:focus {
     white-space: normal;
     max-height: 100%;
   }
+
+  .metadata {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  .anchor {
+    margin-left: -10px;
+    margin-right: -10px;
+  }
 }
