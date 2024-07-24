@@ -15,7 +15,8 @@ function useMainMobileNav() {
     console.log(navLinks[i]);
     if (navLinks[i].href.includes('https://ichoria.org') ||
         navLinks[i].attributes.href.nodeValue === '/' ||
-        navLinks[i].attributes.href.nodeValue.includes('info'))
+        navLinks[i].attributes.href.nodeValue.includes('info') ||
+        navLinks[i].attributes.href.nodeValue.includes('search'))
       continue;
     const option = document.createElement('option');
     option.text = navLinks[i].textContent;
