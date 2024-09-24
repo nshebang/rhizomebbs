@@ -51,7 +51,7 @@ function updateThreadReplies(data) {
   const replies = data.replies;
   replies.forEach(r => {
     const number = r.number + 1;
-    const existingElement = document.querySelector(`a[name="p${number}"]`);
+    const existingElement = $(`p${number}`);
 
     if (!existingElement) {
       const nameEls = document.querySelector(`span[class="name"]`);
@@ -60,8 +60,9 @@ function updateThreadReplies(data) {
       const postEls = document.querySelector(`blockquote[class="post"]`);
       const postType = postEls? 'post' : 'aapost';
 
-      const anchorEl = document.createElement('a');
-      anchorEl.setAttribute('name', `p${number}`);
+      const anchorEl = document.createElement('div');
+      anchorEl.id = `p${number}`;
+      anchorEl.className = 'anchor';
 
       const h4El = document.createElement('h4');
       h4El.innerHTML = `
@@ -81,11 +82,12 @@ function updateThreadReplies(data) {
       blockquoteEl.className = postType;
       blockquoteEl.innerHTML = r.content;
 
-      const lastBlockquote = document.querySelector('blockquote:last-of-type');
-      if (lastBlockquote) {
-        lastBlockquote.insertAdjacentElement('afterend', anchorEl);
-        anchorEl.insertAdjacentElement('afterend', h4El);
-        h4El.insertAdjacentElement('afterend', blockquoteEl);
+      anchorEl.appendChild(h4El);
+      anchorEl.appendChild(blockquoteEl);
+
+      const lastPostDiv = document.querySelector('div[class="anchor"]:last-of-type');
+      if (lastPostDiv) {
+        lastPostDiv.insertAdjacentElement('afterend', anchorEl);
       }
     }
   });
