@@ -4,13 +4,23 @@ const autoRefresh = $('autorefresh');
 const autostatus = $('autostatus');
 let refreshInterval;
 
+document.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('refresh')) {
+    autoRefresh.checked = true;
+    autostatus.textContent = '...';
+    startAutorefresh();
+  }
+});
+
 autoRefresh.addEventListener('change', function() {
   if (this.checked) {
     startAutorefresh();
     autostatus.textContent = '...';
+    localStorage.setItem('refresh', 'true');
   } else {
     stopAutorefresh();
     autostatus.textContent = 'no';
+    localStorage.removeItem('refresh');
   }
 });
 
