@@ -21,7 +21,6 @@ submitButton.addEventListener('click', async () => {
     return;
 
   const imageDataURL = Neo.painter.getImage().toDataURL();
-  console.log(imageDataURL);
   const file = base64ToFile(imageDataURL, `${Date.now()}.png`, 'image/png');
   
   const postData = new FormData();
