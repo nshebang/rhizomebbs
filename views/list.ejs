@@ -13,14 +13,15 @@
 </head>
 <body <% if (board.aa || board.oekaki) { %>class="aa"<% } %>>
   <header>
-    <nav>[
-      <a href="https://ichoria.org">ichoria</a>
-      <a href="/">portada</a>
-      <a href="/info">ayuda</a>
-      <a href="/search">buscar</a>
+    <nav>
+      <a href="https://ichoria.org" target="_blank">★</a> 
+      <a href="/">Portada</a> 
+      <a href="/info">Ayuda</a>
+      <a href="/search">Buscar</a> |
       <% boards.forEach(board => { %>
       <a href="/<%= board %>"><%= board %></a>
-    <% }); %> ]</nav>
+      <% }); %>
+    </nav>
   </header>
   <main>
     <article class="box">

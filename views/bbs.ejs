@@ -20,7 +20,8 @@
       <a href="/search">Buscar</a> |
       <% boards.forEach(board => { %>
       <a href="/<%= board %>"><%= board %></a>
-    <% }); %></nav>
+      <% }); %>
+    </nav>
 
     <% if (board.banner !== "") { %>
     <img src="/img/<%= board.banner %>">
