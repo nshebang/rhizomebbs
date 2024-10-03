@@ -54,6 +54,8 @@ nav {
   border-left: 8px solid #EEAA88;
   border-right: 8px solid #EEAA88;
   padding: 4px;
+  padding-left: 6px;
+  padding-right: 6px;
 }
 
 header {

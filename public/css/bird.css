@@ -57,6 +57,8 @@ nav {
   background-color: #1f2228;
   color: white;
   padding: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
 }
 
 nav a:link, nav a:visited, a:link, a:visited {

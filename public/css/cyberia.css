@@ -48,6 +48,8 @@ h2 a:hover {
 }
 
 nav {
+  padding-left: 6px;
+  padding-right: 6px;
   text-align: left;
   font-size: 11pt;
   background-image: url('/img/lain-cool.gif');

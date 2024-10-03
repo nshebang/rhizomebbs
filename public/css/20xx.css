@@ -48,10 +48,6 @@ h2 a:hover {
   color: darkblue;
 }
 
-nav {
-  text-align: left;
-}
-
 header {
   text-align: center;
 }
@@ -62,10 +58,13 @@ a:link, a:visited {
 }
 
 nav {
+  text-align: left;
   background-color: lightgray;
   border: 1px solid darkblue;
   margin-bottom: 5px;
   padding: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
 }
 
 nav a:hover, a:hover {

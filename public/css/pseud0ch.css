@@ -52,6 +52,8 @@ nav {
   padding: 4px;
   background-color: #CCFFCC;
   border-bottom: 2px solid gray;
+  padding-left: 6px;
+  padding-right: 6px;
 }
 
 header {

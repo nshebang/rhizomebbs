@@ -51,6 +51,8 @@ nav {
   border-bottom: 1px solid black;
   color: #222;
   padding: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
 }
 
 nav a:link, nav a:visited {

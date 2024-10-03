@@ -53,18 +53,17 @@ h2 a:hover {
   color: #3740ca;
 }
 
-nav {
-  text-align: left;
-}
-
 header {
   text-align: center;
 }
 
 nav {
+  text-align: left;
   background-color: #cce;
   color: #222;
   padding: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
 }
 
 nav a:link, nav a:visited {

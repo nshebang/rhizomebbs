@@ -13,15 +13,14 @@
 </head>
 <body <% if (board.aa || board.oekaki) { %>class="aa"<% } %>>
   <header>
-    <nav>[
-      <a href="/<%= boardName %>">Volver</a> |
-      <a href="#postform"><b>Responder al hilo</b></a> |
-      <a href="/<%= boardName %>/list">Lista de hilos</a> |
-      <a href="https://ichoria.org">Ichoria</a> |
-      <a href="/">Portada</a> |
-      <a href="/info">Ayuda</a> |
+    <nav> 
+      <a href="/<%= boardName %>">Volver</a>&nbsp;
+      <a href="#postform"><b>▼Responder al hilo▼</b></a>&nbsp;
+      <a href="/<%= boardName %>/list">Lista de hilos</a>&nbsp;
+      <a href="/">Portada</a>&nbsp;
+      <a href="/info">Ayuda</a>&nbsp;
       <a href="/search">Buscar</a>
-    ]</nav>
+    </nav>
   </header>
   <main>
     <article class="box threadview">
@@ -78,11 +77,11 @@
       <% }); %>
       
       <hr>
-      <a href="/<%= boardName %>">Volver</a> |
-      <a href="#top">▲ Subir</a> |
-      <a href="/<%= boardName %>/list">Lista de hilos</a> |
-      <a href="/info">Ayuda</a> |
-      <a href="/search">Buscar</a> |
+      <a href="/<%= boardName %>">Volver</a>&nbsp;
+      <a href="#top">▲Subir▲</a>&nbsp;
+      <a href="/<%= boardName %>/list">Lista de hilos</a>&nbsp;
+      <a href="/info">Ayuda</a>&nbsp;
+      <a href="/search">Buscar</a>&nbsp;
       <a href="#postform" onclick="fetchNewPosts();">Ver respuestas nuevas</a>
       <label for="autorefresh">
         (<input id="autorefresh" type="checkbox">Automático:
