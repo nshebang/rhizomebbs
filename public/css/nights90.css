@@ -1,0 +1,363 @@
+html {
+  color-scheme: dark;
+  text-rendering: optimizeSpeed;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  background-image: url('/img/stars2.gif');
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*
+  this should be included on all stylesheets for
+  aa boards to be properly displayed!
+*/
+.aa, .aa textarea, .aa input[type="text"] {
+  font-family: MS PGothic, Mona, Noto Sans Mono CJK JP, monospace !important;
+}
+
+h1, h2, h3, h4 {
+  margin: 0 0px 10px;
+}
+
+.newthread {
+  padding-left: 0;
+  background: none;
+  text-align: center;
+}
+
+.thread-controls {
+  font-weight: normal;
+  font-size: 14pt;
+  float: right;
+}
+
+header {
+  text-align: center;
+}
+
+nav {
+  text-align: left;
+  background-color: rgb(11, 11, 23);
+  color: #c2c6ca;
+  padding: 2px;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+nav a:link, nav a:visited {
+  color: rgb(112, 73, 255)
+}
+
+a:link, a:visited {
+  color: rgb(75, 55, 209);
+}
+
+.box a:link, .box a:visited {
+  color: white;
+  text-decoration: underline;
+}
+
+nav a:hover, a:hover, .box a:hover {
+  color: #c00;
+}
+
+h2 a:link, h2 a:visited {
+  color: white !important;
+  text-decoration: none !important;
+}
+
+h2 a:hover {
+  color: #c00 !important;
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.box img {
+  max-width: 150px;
+  height: auto;
+}
+
+.box {
+  margin-top: 10px;
+  background-color: rgb(11, 11, 23, .5);
+  color: #c2c6ca;
+  padding: 10px;
+  border: 4px double #5c6a79;
+}
+
+.post {
+  margin: 0 10px 10px;
+  overflow: auto;
+  text-overflow: ellipsis;
+  white-space: normal;
+  max-height: 400px;
+}
+
+.aapost {
+  margin: 0 10px 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  word-break: keep-all;
+  white-space: pre-wrap;
+  max-height: 2000px;
+}
+
+.quote {
+  border-left: 2px solid #444;
+  padding-left: 10px;
+  color: #444;
+}
+
+.name {
+  color: #30a3a7;
+  font-weight: bold;
+}
+
+.capcode {
+  font-weight: normal;
+  color: #c00;
+}
+
+.roll {
+  background-color: rgb(1, 1, 7);
+  padding: 4px;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #c00;
+}
+
+.uid {
+  font-weight: normal;
+}
+
+.date, .note {
+  font-weight: normal;
+  color: #666;
+}
+
+.metadata .post-controls {
+  display: none;
+}
+
+.metadata:hover {
+  background-color: rgb(8, 8, 14);
+}
+
+.metadata:hover .post-controls {
+  display: inline-block;
+}
+
+.post-controls {
+  font-weight: normal;
+  color: white;
+}
+
+.anchor {
+  background-color: transparent;
+}
+
+.anchor:target {
+  background-color: rgb(1, 1, 7);
+  animation: fadeOut 6s forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    background-color: rgb(1, 1, 7);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
+.spoiler {
+  background-color: black;
+  color: black;
+  transition: .3s;
+}
+
+.spoiler:hover {
+  background-color: transparent;
+  color: #c2c6ca;
+}
+
+.threadlist {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.threadlist tr:hover {
+  background: #030311;
+}
+
+.threadlist th, .threadlist td {
+  border: 1px solid #5c6a79;
+  padding: 5px;
+}
+
+.threadlist th:nth-child(2), .threadlist td:nth-child(2) {
+  min-width: 50%;
+}
+
+.posting-tips {
+  font-size: 9pt;
+  margin: 0px 10px 0px;
+  padding: 10px 10px 0px;
+}
+
+.code-pre {
+  line-height: .5;
+}
+
+code {
+  padding: 5px;
+  display: block;
+  background-color: rgb(1, 1, 7);
+  background-image: url('/img/lain-block.gif');
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  color: white;
+  white-space: nowrap;
+}
+
+footer {
+  text-align: center;
+  font-size: 9pt;
+  margin-bottom: 8px;
+}
+
+input[type="text"], textarea {
+  max-width: 100%;
+  background-color: rgb(8, 8, 14);
+  color: #c2c6ca;
+  font-size: 12pt;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 2px;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+}
+
+input[type="submit"] {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11pt;
+  color: #c2c6ca;
+  padding-left: 4px;
+  padding-right: 4px;
+  background-color: rgb(8, 8, 14);
+  border-top: 1px solid lightgray;
+  border-left: 1px solid lightgray;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  transition: .1s;
+}
+
+input[type="submit"]:hover {
+  background-color: #030311;
+}
+
+input[type="submit"]:focus {
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+}
+
+.youtube {
+  display: inline-block;
+  min-width: 300px;
+  max-width: 100%;
+  font-size: 10pt;
+  padding: 4px;
+  margin: 0;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  border-top: 1px solid lightgray;
+  border-left: 1px solid lightgray;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  background-color: rgb(8, 8, 14);
+}
+
+.youtube .thumb {
+  position: relative;
+  float: left;
+  margin-right: 8px;
+}
+
+.thumb img {
+  width: 90px;
+  height: auto;
+}
+
+.youtube .duration {
+  position: absolute;
+  float: left;
+  background-color: rgba(0, 0, 0,.5);
+  padding: 1px;
+  color: white;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+#floatingReply {
+  display: none;
+  position: absolute;
+  margin: 0;
+  padding: 10px;
+  color: #c2c6ca;
+  background-color: rgb(8, 8, 14);
+  border-top: 1px solid lightgray;
+  border-left: 1px solid lightgray;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  max-width: 600px;
+}
+
+#floatingReply img {
+  max-width: 50%;
+}
+
+#floatingReply a:link, #floatingReply a:visited {
+  color: white;
+}
+
+#floatingReply a:hover {
+  color: #32a;
+}
+
+@media (max-width: 767px) {
+  textarea {
+    width: 100%;
+    height: auto;
+    resize: both;
+  } 
+
+  .post {
+    margin: 0 10px 10px;
+    overflow: hidden;
+    white-space: normal;
+    max-height: 100%;
+  }
+
+  .metadata {
+    font-size: 9pt;
+    background-color: rgb(1, 1, 7);
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  .anchor {
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+}
