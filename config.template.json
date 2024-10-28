@@ -3,6 +3,7 @@
   "siteUrl": "http://localhost:3000",
   "threadCooldown": 1800000,
   "replyCooldown": 5000,
+  "bannedWords": [],
   "styles": {
     "Ichoria": "ichoria.css",
     "pseud0ch": "pseud0ch.css",

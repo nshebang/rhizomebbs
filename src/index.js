@@ -13,6 +13,7 @@ import speakeasy from 'speakeasy';
 import Database from 'better-sqlite3';
 import { DiceRoller } from '@dice-roller/rpg-dice-roller';
 import { lookup } from 'dnsbl';
+import Fuse from 'fuse.js';
 
 import { PostManager } from './posts.js';
 import { BanManager } from './bans.js';
@@ -42,6 +43,7 @@ const styles = nconf.get('styles');
 const motd = nconf.get('motd');
 const replyCooldown = nconf.get('replyCooldown');
 const threadCooldown = nconf.get('threadCooldown');
+const bannedWords = nconf.get('bannedWords');
 
 console.log('Initializing database');
 const schemaPath = path.join(__dirname, '../schema.sql');
@@ -534,9 +536,48 @@ app.post('/submit', async (req, res) => {
     originIp = req.headers['x-forwarded-for'].split(',')[0];
   
   const formData = req.body;
-  if (!formData.board)
+  if (!formData.board || !formData.parent)
     return res.status(302).send({ redirectTo: '/' });
-  
+
+  bannedWords.forEach(word => {
+    const regex = new RegExp(`\\b${word}\\b`);
+    const content = formData.epistula ?? '';
+    const contentWords = content.split(/\s+/);
+    const contentMatchesRegex = content.match(regex);
+    const title = formData.titulus ?? '';
+    const titleWords = title.split(/\s+/);
+    const titleMatchesRegex = title.match(regex);
+    let fuseMatches = false;
+
+    const fuse = new Fuse(bannedWords, {
+      includeScore: true,
+      threshold: 0.25
+    });
+
+    for (let cw of contentWords) {
+      const results = fuse.search(cw);
+      if (results.length > 0)
+        fuseMatches = true;
+    }
+    for (let tw of titleWords) {
+      const results = fuse.search(tw);
+      if (results.length > 0)
+        fuseMatches = true;
+    }
+
+    if (contentMatchesRegex || titleMatchesRegex || fuseMatches) {
+      console.log(`${originIp} ban triggered by antispambot (word=${word})`);
+      const ban = {
+        ip: originIp,
+        reason: 'Filtro automático de spam',
+        timestamp: Date.now(),
+        expires: Date.now + (72 * 60 * 60 * 1000),
+        author: 'antispambot',
+      };
+      banMngr.addBan(ban);
+    }
+  });
+
   const ban = banMngr.getBan(originIp);
   if (ban) {
     if (ban.expires > 0 && Date.now() > ban.expires) {
@@ -577,7 +618,7 @@ app.post('/submit', async (req, res) => {
   'Debes esperar unos segundos para volver a postear.' :
   !formData.titulus && parent === 0 ?
   'Por favor ingresa un título.' :
-  !formData.epistula.trim() ?
+  !formData.epistula || !formData.epistula.trim() ?
   'Debes escribir algo de texto para postear.' :
   formData.epistula.trim().length < 2?
   'El texto es muy corto para ser admitido.' :
@@ -585,7 +626,7 @@ app.post('/submit', async (req, res) => {
   'El texto es muy largo para ser admitido.' : 'ok';
   
   if (result.msg !== 'ok')
-  return res.render('submit', { result });
+    return res.render('submit', { result });
   
   let imageCount = 0;
   let videoIds = [];
