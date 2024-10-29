@@ -539,7 +539,8 @@ app.post('/submit', async (req, res) => {
   if (!formData.board || !formData.parent)
     return res.status(302).send({ redirectTo: '/' });
 
-  bannedWords.forEach(word => {
+  for(let i = 0; i < bannedWords.length; i++) {
+    const word = bannedWords[i];
     const regex = new RegExp(`\\b${word}\\b`);
     const content = formData.epistula ?? '';
     const contentWords = content.split(/\s+/);
@@ -547,11 +548,13 @@ app.post('/submit', async (req, res) => {
     const title = formData.titulus ?? '';
     const titleWords = title.split(/\s+/);
     const titleMatchesRegex = title.match(regex);
+    /*
     let fuseMatches = false;
 
+    
     const fuse = new Fuse(bannedWords, {
       includeScore: true,
-      threshold: 0.25
+      threshold: 0.15
     });
 
     for (let cw of contentWords) {
@@ -564,19 +567,21 @@ app.post('/submit', async (req, res) => {
       if (results.length > 0)
         fuseMatches = true;
     }
+    */
 
-    if (contentMatchesRegex || titleMatchesRegex || fuseMatches) {
-      console.log(`${originIp} ban triggered by antispambot (word=${word})`);
+    if (contentMatchesRegex || titleMatchesRegex /* || fuseMatches */) {
+      console.log(`${originIp} ban triggered by antispambot`);
       const ban = {
         ip: originIp,
         reason: 'Filtro automático de spam',
         timestamp: Date.now(),
-        expires: Date.now + (72 * 60 * 60 * 1000),
+        expires: Date.now() + (72 * 60 * 60 * 1000),
         author: 'antispambot',
       };
       banMngr.addBan(ban);
+      break;
     }
-  });
+  }
 
   const ban = banMngr.getBan(originIp);
   if (ban) {
