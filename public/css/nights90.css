@@ -48,7 +48,7 @@ nav {
 }
 
 nav a:link, nav a:visited {
-  color: rgb(112, 73, 255)
+  color: rgb(112, 73, 255);
 }
 
 a:link, a:visited {
@@ -56,7 +56,7 @@ a:link, a:visited {
 }
 
 .box a:link, .box a:visited {
-  color: white;
+  color: rgb(112, 73, 255);
   text-decoration: underline;
 }
 
@@ -65,13 +65,17 @@ nav a:hover, a:hover, .box a:hover {
 }
 
 h2 a:link, h2 a:visited {
-  color: white !important;
+  color: #f26fbc !important;
   text-decoration: none !important;
 }
 
 h2 a:hover {
-  color: #c00 !important;
+  color: #ff2478 !important;
   text-decoration: underline;
+}
+
+.threadview h2 {
+  color: #f26fbc;
 }
 
 img {
@@ -110,9 +114,9 @@ img {
 }
 
 .quote {
-  border-left: 2px solid #444;
+  border-left: 2px solid #666;
   padding-left: 10px;
-  color: #444;
+  color: #666;
 }
 
 .name {
