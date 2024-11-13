@@ -24,7 +24,7 @@ submitButton.addEventListener('click', async () => {
   const file = base64ToFile(imageDataURL, `${Date.now()}.png`, 'image/png');
   
   const postData = new FormData();
-  postData.append('file', file);
+  postData.append('files', file);
 
   const headers = new Headers();
   headers.append('X-Requested-With', 'NEO');
